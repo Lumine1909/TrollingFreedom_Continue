@@ -1,14 +1,14 @@
 package me.iangry.trollingfreedom.other;
 
 public enum Mode {
-    APLHA, ALPHANUMERIC, NUMERIC, SYMBOLIC, ALPHASYMBOLIC, NUMERICSYMBOLIC, APLHANUMERICSYMBOLIC;
+    ALPHA, ALPHANUMERIC, NUMERIC, SYMBOLIC, ALPHASYMBOLIC, NUMERICSYMBOLIC, APLHANUMERICSYMBOLIC;
 
 
     public static String getString(int length, Mode mode) {
         StringBuilder builder = new StringBuilder();
         String s = "";
         switch (mode) {
-            case APLHA:
+            case ALPHA:
                 s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
             case ALPHANUMERIC:
                 s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

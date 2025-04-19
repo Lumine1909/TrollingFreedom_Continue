@@ -19,7 +19,6 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.util.Consumer;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -195,17 +194,9 @@ public class TrollInventory4 implements Listener, InventoryHolder {
                                 }
 
                             }
-                        }, new Consumer<Player>() {
-
-                            @Override
-                            public void accept(Player arg0) {
-                                //code to execute for back buttok
-
-                                // p.sendMessage("back");
-                                TrollInventory4 sp2 = new TrollInventory4(VictimPlayer.getPlayer());
-                                sp2.openInventory(p);
-
-                            }
+                        }, player -> {
+                            TrollInventory4 sp2 = new TrollInventory4(VictimPlayer.getPlayer());
+                            sp2.openInventory(p);
                         }, "§b§lTF §8| §7Confirm §c§lNUKE", Core.instance);
                         break;
                     case 12:
@@ -246,17 +237,9 @@ public class TrollInventory4 implements Listener, InventoryHolder {
                                 }
 
                             }
-                        }, new Consumer<Player>() {
-
-                            @Override
-                            public void accept(Player arg0) {
-                                //code to execute for back buttok
-
-                                // p.sendMessage("back");
-                                TrollInventory4 sp2 = new TrollInventory4(VictimPlayer.getPlayer());
-                                sp2.openInventory(p);
-
-                            }
+                        }, player -> {
+                            TrollInventory4 sp2 = new TrollInventory4(VictimPlayer.getPlayer());
+                            sp2.openInventory(p);
                         }, "§b§lTF §8| §7Confirm §7World Loading", Core.instance);
                         break;
                     case 16:
@@ -332,4 +315,3 @@ public class TrollInventory4 implements Listener, InventoryHolder {
         }
     }
 }
-

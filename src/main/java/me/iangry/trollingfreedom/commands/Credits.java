@@ -26,11 +26,7 @@ public class Credits implements Listener {
     }
 
     public static boolean sendPacket(final Player player, final PacketContainer packet) {
-        try {
-            ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
-        } catch (InvocationTargetException invocationTargetException) {
-            return false;
-        }
+        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
         return true;
     }
 

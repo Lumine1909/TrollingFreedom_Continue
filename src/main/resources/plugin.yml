@@ -1,10 +1,10 @@
-name: "TrollingFreedom"
-version: 2.4.3
-description: "Troll Plugin with GUI"
+name: $name
+version: $version
+description: $description
 author: iAngry
 main: me.iangry.trollingfreedom.main.Core
 softdepend: [Essentials, Citizens, ProtocolLib]
-api-version: 1.13
+api-version: $apiVersion
 commands:
   trollingfreedom:
     description: Plugin help

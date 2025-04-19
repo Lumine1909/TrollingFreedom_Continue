@@ -206,7 +206,7 @@ public class Core extends JavaPlugin implements Listener {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             getLogger().severe(e.getLocalizedMessage());
             e.printStackTrace();
-            this.getPluginLoader().disablePlugin(this);
+            Bukkit.getPluginManager().disablePlugin(this);
         }
         usingUUID = getServer().getOnlineMode();
 

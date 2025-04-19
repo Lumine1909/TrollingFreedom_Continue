@@ -35,10 +35,10 @@ public class MathUtils implements Listener {
     static private final int SIN_BITS = 14; // 16KB. Adjust for accuracy.
     static private final int SIN_MASK = ~(-1 << SIN_BITS);
     static private final int SIN_COUNT = SIN_MASK + 1;
-    static private final float degToIndex = SIN_COUNT / degFull;
-    static private final float radFull = PI * 2;
-    static private final float radToIndex = SIN_COUNT / radFull;
     static private final float degFull = 360;
+    static private final float radFull = PI * 2;
+    static private final float degToIndex = SIN_COUNT / degFull;
+    static private final float radToIndex = SIN_COUNT / radFull;
     static private final int ATAN2_BITS = 7; // Adjust for accuracy.
     static private final int ATAN2_BITS2 = ATAN2_BITS << 1;
     static private final int ATAN2_MASK = ~(-1 << ATAN2_BITS2);
@@ -104,7 +104,7 @@ public class MathUtils implements Listener {
     /**
      * Returns atan2 in radians from a lookup table.
      */
-    static public final float atan2(float y, float x) {
+    static public float atan2(float y, float x) {
         float add, mul;
         if (x < 0) {
             if (y < 0) {
@@ -124,7 +124,7 @@ public class MathUtils implements Listener {
             }
             add = 0;
         }
-        float invDiv = 1 / ((x < y ? y : x) * INV_ATAN2_DIM_MINUS_1);
+        float invDiv = 1 / ((Math.max(x, y)) * INV_ATAN2_DIM_MINUS_1);
 
         if (invDiv == Float.POSITIVE_INFINITY) {
             return ((float) Math.atan2(y, x) + add) * mul;
@@ -182,7 +182,7 @@ public class MathUtils implements Listener {
     /**
      * Returns a random number between start (inclusive) and end (exclusive).
      */
-    static public final float random(float start, float end) {
+    static public float random(float start, float end) {
         return start + random.nextFloat() * (end - start);
     }
 

@@ -27,15 +27,11 @@ public class Guardian implements Listener {
     }
 
     public static boolean sendPacket(final Player player, final PacketContainer packet) {
-        try {
-            ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
-            player.playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 100, 1);
-            player.playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 100, 1);
-            player.playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 100, 1);
-            player.playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 100, 1);
-        } catch (InvocationTargetException invocationTargetException) {
-            return false;
-        }
+        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
+        player.playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 100, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 100, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_CURSE, 100, 1);
+        player.playSound(player.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_AMBIENT, 100, 1);
         return true;
     }
 

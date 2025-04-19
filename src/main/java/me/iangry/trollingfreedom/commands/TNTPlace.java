@@ -26,7 +26,7 @@ public class TNTPlace implements Listener {
     public void onBlockPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
         if (Fireball1.contains(p.getName())) {
-            p.getLocation().getWorld().spawnEntity(e.getBlock().getLocation(), EntityType.PRIMED_TNT);
+            p.getLocation().getWorld().spawnEntity(e.getBlock().getLocation(), EntityType.TNT);
             e.getBlockPlaced().breakNaturally();
         }
     }

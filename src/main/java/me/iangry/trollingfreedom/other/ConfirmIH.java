@@ -13,9 +13,9 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.util.Consumer;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class ConfirmIH implements InventoryHolder, Listener {
 
