@@ -9,6 +9,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.ArrayList;
 
 public class Deafen implements Listener {
+
     public static ArrayList<String> Deaf1 = new ArrayList();
 
 

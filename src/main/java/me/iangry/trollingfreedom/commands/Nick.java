@@ -32,12 +32,11 @@ public class Nick implements Listener {
         Essentials ess = (Essentials) Bukkit.getServer().getPluginManager().getPlugin("Essentials");
         User user = ess.getUserMap().getUser(p.getName());
 
-       // String nick = user.getNick();
+        // String nick = user.getNick();
         if (Nick1.contains(p.getName())) {
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "nick " + p.getName() + " off");
             Nick1.remove(p.getName());
         } else {
-            return;
         }
     }
 }

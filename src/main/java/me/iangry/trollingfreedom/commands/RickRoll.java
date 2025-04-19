@@ -1,7 +1,10 @@
 package me.iangry.trollingfreedom.commands;
 
 import me.iangry.trollingfreedom.main.Core;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Instrument;
+import org.bukkit.Material;
+import org.bukkit.Note;
 import org.bukkit.Note.Tone;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,9 +16,9 @@ import org.bukkit.inventory.meta.BookMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class RickRoll implements Listener {
+
     public static ArrayList<String> Rick1 = new ArrayList<>();
     int procedure = 0;
 
@@ -23,62 +26,62 @@ public class RickRoll implements Listener {
         Rick1.add(p.getName());
 
         List<String> pages = new ArrayList<String>();
-    //    pages.add("§4We're no strangers to love\n" +
-   //             "§4You know the rules and so do I\n" +
-    //            "§4A full commitment's what I'm thinking of\n" +
-   //             "§4You wouldn't get this from any other guy"); // Page 1
-   //     pages.add("I just wanna tell you how I'm feeling\n" +
-  //              "Gotta make you understand"); // Page 2
+        //    pages.add("§4We're no strangers to love\n" +
+        //             "§4You know the rules and so do I\n" +
+        //            "§4A full commitment's what I'm thinking of\n" +
+        //             "§4You wouldn't get this from any other guy"); // Page 1
+        //     pages.add("I just wanna tell you how I'm feeling\n" +
+        //              "Gotta make you understand"); // Page 2
         pages.add("§4Never gonna give you up\n" +
-                "Never gonna let you down\n" +
-                "Never gonna run around and desert you\n" +
-                "Never gonna make you cry\n" +
-                "Never gonna say goodbye\n" +
-                "Never gonna tell a lie and hurt you"); // Page 3
+            "Never gonna let you down\n" +
+            "Never gonna run around and desert you\n" +
+            "Never gonna make you cry\n" +
+            "Never gonna say goodbye\n" +
+            "Never gonna tell a lie and hurt you"); // Page 3
         pages.add("We've known each other for so long\n" +
-                "Your heart's been aching but you're too shy to say it\n" +
-                "Inside we both know what's been going on\n" +
-                "We know the game and we're gonna play it");
+            "Your heart's been aching but you're too shy to say it\n" +
+            "Inside we both know what's been going on\n" +
+            "We know the game and we're gonna play it");
         pages.add("And if you ask me how I'm feeling\n" +
-                "Don't tell me you're too blind to see");
+            "Don't tell me you're too blind to see");
         pages.add("Never gonna give you up\n" +
-                "Never gonna let you down\n" +
-                "Never gonna run around and desert you\n" +
-                "Never gonna make you cry\n" +
-                "Never gonna say goodbye");
+            "Never gonna let you down\n" +
+            "Never gonna run around and desert you\n" +
+            "Never gonna make you cry\n" +
+            "Never gonna say goodbye");
         pages.add("Never gonna tell a lie and hurt you\n" +
-                "Never gonna give you up\n" +
-                "Never gonna let you down\n" +
-                "Never gonna run around and desert you\n" +
-                "Never gonna make you cry\n" +
-                "Never gonna say goodbye\n" +
-                "Never gonna tell a lie and hurt you");
+            "Never gonna give you up\n" +
+            "Never gonna let you down\n" +
+            "Never gonna run around and desert you\n" +
+            "Never gonna make you cry\n" +
+            "Never gonna say goodbye\n" +
+            "Never gonna tell a lie and hurt you");
         pages.add("Never gonna give, never gonna give\n" +
-                "(Give you up)\n" +
-                "(Ooh) Never gonna give, never gonna give\n" +
-                "(Give you up)");
+            "(Give you up)\n" +
+            "(Ooh) Never gonna give, never gonna give\n" +
+            "(Give you up)");
         pages.add("We've known each other for so long\n" +
-                "Your heart's been aching but you're too shy to say it\n" +
-                "Inside we both know what's been going on\n" +
-                "We know the game and we're gonna play it");
+            "Your heart's been aching but you're too shy to say it\n" +
+            "Inside we both know what's been going on\n" +
+            "We know the game and we're gonna play it");
         pages.add("I just wanna tell you how I'm feeling\n" +
-                "Gotta make you understand");
+            "Gotta make you understand");
         pages.add("Never gonna give you up\n" +
-                "Never gonna let you down\n" +
-                "Never gonna run around and desert you\n" +
-                "Never gonna make you cry\n" +
-                "Never gonna say goodbye\n" +
-                "Never gonna tell a lie and hurt you\n" +
-                "Never gonna give you up");
+            "Never gonna let you down\n" +
+            "Never gonna run around and desert you\n" +
+            "Never gonna make you cry\n" +
+            "Never gonna say goodbye\n" +
+            "Never gonna tell a lie and hurt you\n" +
+            "Never gonna give you up");
         pages.add("Never gonna let you down\n" +
-                "Never gonna run around and desert you\n" +
-                "Never gonna make you cry\n" +
-                "Never gonna say goodbye\n" +
-                "Never gonna tell a lie and hurt you\n" +
-                "Never gonna give you up\n" +
-                "Never gonna let you down\n" +
-                "Never gonna run around and desert you\n" +
-                "Never gonna make you cry");
+            "Never gonna run around and desert you\n" +
+            "Never gonna make you cry\n" +
+            "Never gonna say goodbye\n" +
+            "Never gonna tell a lie and hurt you\n" +
+            "Never gonna give you up\n" +
+            "Never gonna let you down\n" +
+            "Never gonna run around and desert you\n" +
+            "Never gonna make you cry");
 
         ItemStack writtenBook = new ItemStack(Material.WRITTEN_BOOK, 1);
         BookMeta bookMeta = (BookMeta) writtenBook.getItemMeta();
@@ -381,20 +384,22 @@ public class RickRoll implements Listener {
         Rick1.remove(p.getName());
 
     }
+
     @EventHandler
     public void onquit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
-        if (this.Rick1.contains(p.getName())) {
+        if (Rick1.contains(p.getName())) {
             Bukkit.getScheduler().cancelTasks(Core.instance);
             Rick1.remove(p.getName());
         }
     }
-        @EventHandler
-        public void onexit(PlayerMoveEvent e) {
-            Player p = e.getPlayer();
-            if (this.Rick1.contains(p.getName())) {
-                Bukkit.getScheduler().cancelTasks(Core.instance);
-                Rick1.remove(p.getName());
-            }
+
+    @EventHandler
+    public void onexit(PlayerMoveEvent e) {
+        Player p = e.getPlayer();
+        if (Rick1.contains(p.getName())) {
+            Bukkit.getScheduler().cancelTasks(Core.instance);
+            Rick1.remove(p.getName());
+        }
     }
 }

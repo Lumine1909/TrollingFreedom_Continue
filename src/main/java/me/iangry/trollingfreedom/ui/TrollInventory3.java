@@ -22,25 +22,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class TrollInventory3 implements Listener, InventoryHolder {
-    HashMap<String, String> launchedPlayers = new HashMap<String, String>();
-    HashMap<String, String> clearedFPlayers = new HashMap<String, String>();
+
+    static TrollInventory3 main;
     //HashMaps for Toggabels
     private final Inventory inv;
-    static TrollInventory3 main;
+    HashMap<String, String> launchedPlayers = new HashMap<String, String>();
+    HashMap<String, String> clearedFPlayers = new HashMap<String, String>();
     Player VictimPlayer;
-    public String getNOU(Player p){
-        return Core.uid()?p.getName():p.getUniqueId().toString();
-    }
-    public String centerTitle(String title) {
-        StringBuilder result = new StringBuilder();
-        int spaces = (27 - ChatColor.stripColor(title).length());
+    ItemStack unTroll = createGuiItem(XMaterial.BARRIER, true, Core.getPathCC("items.Untroll-name"), Core.getPathCC("items.Untroll-lore"));
+    ItemStack secondPage = createGuiItem(XMaterial.ARROW, true, Core.getPathCC("items.nextpage-name"), Core.getPathCC("items.nextpage-lore"));
+    ItemStack backPage = createGuiItem(XMaterial.ARROW, true, Core.getPathCC("items.backpage-name"), Core.getPathCC("items.backpage-lore"));
 
-        for (int i = 0; i < spaces; i++) {
-            result.append(" ");
-        }
-
-        return result.append(title).toString();
-    }
     public TrollInventory3(Player vic) {
 
         VictimPlayer = vic;
@@ -52,10 +44,12 @@ public class TrollInventory3 implements Listener, InventoryHolder {
         initializeItems();
 
     }
+
     //To use method beyond this codeA
     public static TrollInventory3 getGUI() {
         return main;
     }
+
     public static HashMap getMaps(String maps) {
         switch (maps) {
             case "LP":
@@ -66,49 +60,59 @@ public class TrollInventory3 implements Listener, InventoryHolder {
         // FrZLayers... creative.
         return null;
     }
+
+    // You can call this whenever you want to put the items in
+
+    //  ItemStack mainPage = createGuiItem(XMaterial.REDSTONE_BLOCK, true, Core.getPathCC("items.Playerselector-name"), Core.getPathCC("items.Playerselector-lore"));
+
+    public String getNOU(Player p) {
+        return Core.uid() ? p.getName() : p.getUniqueId().toString();
+    }
+
+    public String centerTitle(String title) {
+        StringBuilder result = new StringBuilder();
+        int spaces = (27 - ChatColor.stripColor(title).length());
+
+        for (int i = 0; i < spaces; i++) {
+            result.append(" ");
+        }
+
+        return result.append(title).toString();
+    }
+
     @Override
     public Inventory getInventory() {
         return inv;
     }
-
-    // You can call this whenever you want to put the items in
-
-  //  ItemStack mainPage = createGuiItem(XMaterial.REDSTONE_BLOCK, true, Core.getPathCC("items.Playerselector-name"), Core.getPathCC("items.Playerselector-lore"));
-
-    ItemStack unTroll = createGuiItem(XMaterial.BARRIER, true, Core.getPathCC("items.Untroll-name"), Core.getPathCC("items.Untroll-lore"));
-
-    ItemStack secondPage = createGuiItem(XMaterial.ARROW, true, Core.getPathCC("items.nextpage-name"), Core.getPathCC("items.nextpage-lore"));
-
-    ItemStack backPage = createGuiItem(XMaterial.ARROW, true, Core.getPathCC("items.backpage-name"), Core.getPathCC("items.backpage-lore"));
 
     public void initializeItems() {
         ItemStack plc = new ItemStack(XMaterial.CYAN_STAINED_GLASS_PANE.parseMaterial(), 1);
         ItemMeta meta = plc.getItemMeta();
         meta.setDisplayName(" ");
         plc.setItemMeta(meta);
-        for(Integer i = 0; i < 45; i++){
+        for (Integer i = 0; i < 45; i++) {
             inv.setItem(i, plc);
         }
 
-        inv.setItem(10,createGuiItem(XMaterial.OAK_DOOR, false, Core.tcc(Core.instance.getConfig().getString("items.fakeclose-name")), Core.tcc(Core.instance.getConfig().getString("items.fakeclose-lore"))));
-        inv.setItem(11,createGuiItem(XMaterial.IRON_DOOR, false, Core.tcc(Core.instance.getConfig().getString("items.fakeban-name")), Core.tcc(Core.instance.getConfig().getString("items.fakeban-lore"))));
-        inv.setItem(12,createGuiItem(XMaterial.FLINT_AND_STEEL, false, Core.tcc(Core.instance.getConfig().getString("items.burn-name")), Core.tcc(Core.instance.getConfig().getString("items.burn-lore"))));
-        inv.setItem(13,createGuiItem(XMaterial.POTATO, false, Core.tcc(Core.instance.getConfig().getString("items.potato-name")), Core.tcc(Core.instance.getConfig().getString("items.potato-lore"))));
-        inv.setItem(14,createGuiItem(XMaterial.CARVED_PUMPKIN, false, Core.tcc(Core.instance.getConfig().getString("items.pumpkin-name")), Core.tcc(Core.instance.getConfig().getString("items.pumpkin-lore"))));
-        inv.setItem(15,createGuiItem(XMaterial.DIRT, false, Core.tcc(Core.instance.getConfig().getString("items.rainitems-name")), Core.tcc(Core.instance.getConfig().getString("items.rainitems-lore"))));
-        inv.setItem(16,createGuiItem(XMaterial.CHEST, false, Core.tcc(Core.instance.getConfig().getString("items.randominv-name")), Core.tcc(Core.instance.getConfig().getString("items.randominv-lore"))));
-        inv.setItem(19,createGuiItem(XMaterial.REDSTONE, false, Core.tcc(Core.instance.getConfig().getString("items.randomparticle-name")), Core.tcc(Core.instance.getConfig().getString("items.randomparticle-lore"))));
-        inv.setItem(20,createGuiItem(XMaterial.ENDER_PEARL, false, Core.tcc(Core.instance.getConfig().getString("items.randomtp-name")), Core.tcc(Core.instance.getConfig().getString("items.randomtp-lore"))));
-        inv.setItem(21,createGuiItem(XMaterial.ENCHANTED_GOLDEN_APPLE, false, Core.tcc(Core.instance.getConfig().getString("items.rickroll-name")), Core.tcc(Core.instance.getConfig().getString("items.rickroll-lore"))));
-        inv.setItem(22,createGuiItem(XMaterial.SILVERFISH_SPAWN_EGG, false, Core.tcc(Core.instance.getConfig().getString("items.silverfish-name")), Core.tcc(Core.instance.getConfig().getString("items.silverfish-lore"))));
-        inv.setItem(23,createGuiItem(XMaterial.ENDERMAN_SPAWN_EGG, false, Core.tcc(Core.instance.getConfig().getString("items.slenderman-name")), Core.tcc(Core.instance.getConfig().getString("items.slenderman-lore"))));
-        inv.setItem(24,createGuiItem(XMaterial.PACKED_ICE,false,  Core.tcc(Core.instance.getConfig().getString("items.slipperyhands-name")), Core.tcc(Core.instance.getConfig().getString("items.slipperyhands-lore"))));
-        inv.setItem(25,createGuiItem(XMaterial.DIAMOND_PICKAXE,false,  Core.tcc(Core.instance.getConfig().getString("items.sneakdestroy-name")), Core.tcc(Core.instance.getConfig().getString("items.sneakdestroy-lore"))));
-        inv.setItem(29,createGuiItem(XMaterial.PUMPKIN,false,  Core.tcc(Core.instance.getConfig().getString("items.snowman-name")), Core.tcc(Core.instance.getConfig().getString("items.snowman-lore"))));
-        inv.setItem(30,createGuiItem(XMaterial.POTION,false,  Core.tcc(Core.instance.getConfig().getString("items.spin-name")), Core.tcc(Core.instance.getConfig().getString("items.spin-lore"))));
-        inv.setItem(31,createGuiItem(XMaterial.POISONOUS_POTATO,false,  Core.tcc(Core.instance.getConfig().getString("items.starve-name")), Core.tcc(Core.instance.getConfig().getString("items.starve-lore"))));
-        inv.setItem(32,createGuiItem(XMaterial.CLOCK,false,  Core.tcc(Core.instance.getConfig().getString("items.timeflash-name")), Core.tcc(Core.instance.getConfig().getString("items.timeflash-lore"))));
-        inv.setItem(33,createGuiItem(XMaterial.TNT,false,  Core.tcc(Core.instance.getConfig().getString("items.tnt-name")), Core.tcc(Core.instance.getConfig().getString("items.tnt-lore"))));
+        inv.setItem(10, createGuiItem(XMaterial.OAK_DOOR, false, Core.tcc(Core.instance.getConfig().getString("items.fakeclose-name")), Core.tcc(Core.instance.getConfig().getString("items.fakeclose-lore"))));
+        inv.setItem(11, createGuiItem(XMaterial.IRON_DOOR, false, Core.tcc(Core.instance.getConfig().getString("items.fakeban-name")), Core.tcc(Core.instance.getConfig().getString("items.fakeban-lore"))));
+        inv.setItem(12, createGuiItem(XMaterial.FLINT_AND_STEEL, false, Core.tcc(Core.instance.getConfig().getString("items.burn-name")), Core.tcc(Core.instance.getConfig().getString("items.burn-lore"))));
+        inv.setItem(13, createGuiItem(XMaterial.POTATO, false, Core.tcc(Core.instance.getConfig().getString("items.potato-name")), Core.tcc(Core.instance.getConfig().getString("items.potato-lore"))));
+        inv.setItem(14, createGuiItem(XMaterial.CARVED_PUMPKIN, false, Core.tcc(Core.instance.getConfig().getString("items.pumpkin-name")), Core.tcc(Core.instance.getConfig().getString("items.pumpkin-lore"))));
+        inv.setItem(15, createGuiItem(XMaterial.DIRT, false, Core.tcc(Core.instance.getConfig().getString("items.rainitems-name")), Core.tcc(Core.instance.getConfig().getString("items.rainitems-lore"))));
+        inv.setItem(16, createGuiItem(XMaterial.CHEST, false, Core.tcc(Core.instance.getConfig().getString("items.randominv-name")), Core.tcc(Core.instance.getConfig().getString("items.randominv-lore"))));
+        inv.setItem(19, createGuiItem(XMaterial.REDSTONE, false, Core.tcc(Core.instance.getConfig().getString("items.randomparticle-name")), Core.tcc(Core.instance.getConfig().getString("items.randomparticle-lore"))));
+        inv.setItem(20, createGuiItem(XMaterial.ENDER_PEARL, false, Core.tcc(Core.instance.getConfig().getString("items.randomtp-name")), Core.tcc(Core.instance.getConfig().getString("items.randomtp-lore"))));
+        inv.setItem(21, createGuiItem(XMaterial.ENCHANTED_GOLDEN_APPLE, false, Core.tcc(Core.instance.getConfig().getString("items.rickroll-name")), Core.tcc(Core.instance.getConfig().getString("items.rickroll-lore"))));
+        inv.setItem(22, createGuiItem(XMaterial.SILVERFISH_SPAWN_EGG, false, Core.tcc(Core.instance.getConfig().getString("items.silverfish-name")), Core.tcc(Core.instance.getConfig().getString("items.silverfish-lore"))));
+        inv.setItem(23, createGuiItem(XMaterial.ENDERMAN_SPAWN_EGG, false, Core.tcc(Core.instance.getConfig().getString("items.slenderman-name")), Core.tcc(Core.instance.getConfig().getString("items.slenderman-lore"))));
+        inv.setItem(24, createGuiItem(XMaterial.PACKED_ICE, false, Core.tcc(Core.instance.getConfig().getString("items.slipperyhands-name")), Core.tcc(Core.instance.getConfig().getString("items.slipperyhands-lore"))));
+        inv.setItem(25, createGuiItem(XMaterial.DIAMOND_PICKAXE, false, Core.tcc(Core.instance.getConfig().getString("items.sneakdestroy-name")), Core.tcc(Core.instance.getConfig().getString("items.sneakdestroy-lore"))));
+        inv.setItem(29, createGuiItem(XMaterial.PUMPKIN, false, Core.tcc(Core.instance.getConfig().getString("items.snowman-name")), Core.tcc(Core.instance.getConfig().getString("items.snowman-lore"))));
+        inv.setItem(30, createGuiItem(XMaterial.POTION, false, Core.tcc(Core.instance.getConfig().getString("items.spin-name")), Core.tcc(Core.instance.getConfig().getString("items.spin-lore"))));
+        inv.setItem(31, createGuiItem(XMaterial.POISONOUS_POTATO, false, Core.tcc(Core.instance.getConfig().getString("items.starve-name")), Core.tcc(Core.instance.getConfig().getString("items.starve-lore"))));
+        inv.setItem(32, createGuiItem(XMaterial.CLOCK, false, Core.tcc(Core.instance.getConfig().getString("items.timeflash-name")), Core.tcc(Core.instance.getConfig().getString("items.timeflash-lore"))));
+        inv.setItem(33, createGuiItem(XMaterial.TNT, false, Core.tcc(Core.instance.getConfig().getString("items.tnt-name")), Core.tcc(Core.instance.getConfig().getString("items.tnt-lore"))));
 
         //inv.setItem(36, mainPage);
 
@@ -119,13 +123,13 @@ public class TrollInventory3 implements Listener, InventoryHolder {
         inv.setItem(44, secondPage);
     }
 
-    protected ItemStack createGuiItem(final XMaterial XMaterial, final Boolean isEnchanted , final String name, final String... lore) {
+    protected ItemStack createGuiItem(final XMaterial XMaterial, final Boolean isEnchanted, final String name, final String... lore) {
         final ItemStack item = new ItemStack(XMaterial.parseMaterial(), 1);
         final ItemMeta meta = item.getItemMeta();
 
         // Set the name of the item
         meta.setDisplayName(name);
-        if(isEnchanted){
+        if (isEnchanted) {
             meta.addEnchant(XEnchantment.DURABILITY.parseEnchantment(), 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
@@ -154,20 +158,20 @@ public class TrollInventory3 implements Listener, InventoryHolder {
         if (clickedItem == null || clickedItem.getType() == XMaterial.AIR.parseMaterial()) return;
 
         final Player p = (Player) e.getWhoClicked();
-        if(VictimPlayer != null){
-            if(e.getSlot() < 45){
-                switch(e.getRawSlot()){
+        if (VictimPlayer != null) {
+            if (e.getSlot() < 45) {
+                switch (e.getRawSlot()) {
                     case 10:
                         FakeCrash troll = new FakeCrash();
-                        troll.FakeClosed(VictimPlayer);
+                        FakeCrash.FakeClosed(VictimPlayer);
                         break;
                     case 11:
                         FakeCrash troll2 = new FakeCrash();
-                        troll2.FakeBan(VictimPlayer);
+                        FakeCrash.FakeBan(VictimPlayer);
                         break;
                     case 12:
                         FakeCrash troll3 = new FakeCrash();
-                        troll3.Burn(VictimPlayer);
+                        FakeCrash.Burn(VictimPlayer);
                         break;
                     case 13:
                         Potato troll4 = new Potato();
@@ -191,7 +195,7 @@ public class TrollInventory3 implements Listener, InventoryHolder {
                         break;
                     case 20:
                         RandomTP troll9 = new RandomTP();
-                        troll9.RandomTP(VictimPlayer);
+                        RandomTP.RandomTP(VictimPlayer);
                         break;
                     case 21:
                         RickRoll troll10 = new RickRoll();
@@ -199,7 +203,7 @@ public class TrollInventory3 implements Listener, InventoryHolder {
                         break;
                     case 22:
                         Silverfish troll11 = new Silverfish();
-                        troll11.Fish(VictimPlayer);
+                        Silverfish.Fish(VictimPlayer);
                         break;
                     case 23:
                         Slenderman troll12 = new Slenderman();
@@ -207,7 +211,7 @@ public class TrollInventory3 implements Listener, InventoryHolder {
                         break;
                     case 24:
                         SlipperyHands troll13 = new SlipperyHands();
-                        troll13.SlipperyHands(VictimPlayer);
+                        SlipperyHands.SlipperyHands(VictimPlayer);
                         break;
                     case 25:
                         SneakDestroy troll14 = new SneakDestroy();
@@ -219,7 +223,7 @@ public class TrollInventory3 implements Listener, InventoryHolder {
                         break;
                     case 30:
                         Spin troll16 = new Spin();
-                        troll16.Spin(VictimPlayer);
+                        Spin.Spin(VictimPlayer);
                         break;
                     case 31:
                         Starve troll17 = new Starve();
@@ -231,7 +235,7 @@ public class TrollInventory3 implements Listener, InventoryHolder {
                         break;
                     case 33:
                         TNT troll19 = new TNT();
-                        troll19.FakeNuke(VictimPlayer);
+                        TNT.FakeNuke(VictimPlayer);
                         break;
                     case 36:
                         TrollInventory2 sp = new TrollInventory2(VictimPlayer.getPlayer());

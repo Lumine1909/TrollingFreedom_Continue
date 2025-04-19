@@ -1,10 +1,5 @@
 package me.iangry.trollingfreedom.main;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import me.iangry.trollingfreedom.commands.*;
 import me.iangry.trollingfreedom.commands.Void;
 import org.bukkit.Bukkit;
@@ -15,14 +10,20 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class TrollWithCMD
-        implements CommandExecutor,
-        TabCompleter {
+    implements CommandExecutor,
+    TabCompleter {
+
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         String ags;
 
-      String pl = args[0];
-      Player t = Bukkit.getPlayer(pl);
+        String pl = args[0];
+        Player t = Bukkit.getPlayer(pl);
 
         if (!sender.hasPermission("trollingfreedom.trollp")) {
 
@@ -39,42 +40,42 @@ public class TrollWithCMD
         }
         if (args.length == 1) {
 
-            String message3 = (String)Core.instance.getConfig().get("trollp-usage");
+            String message3 = (String) Core.instance.getConfig().get("trollp-usage");
             String replaced3 = message3.replace("&", "§").replace("%player%", sender.getName());
             sender.sendMessage(replaced3);
-                return false;
-            }
-            //
-            if (t == null) {
-                String message4 = (String) Core.instance.getConfig().get("not-online");
-                String replaced4 = message4.replace("&", "§").replace("%player%", args[0]);
-                sender.sendMessage(replaced4);
-                return false;
-            }
+            return false;
+        }
+        //
+        if (t == null) {
+            String message4 = (String) Core.instance.getConfig().get("not-online");
+            String replaced4 = message4.replace("&", "§").replace("%player%", args[0]);
+            sender.sendMessage(replaced4);
+            return false;
+        }
         switch (ags = args.length > 1 ? args[1] : "") {
             case "afk": {
                 AFK troll = new AFK();
-                troll.FakeAFK(t);
+                AFK.FakeAFK(t);
                 break;
             }
             case "unafk": {
                 AFK troll2 = new AFK();
-                troll2.FakeUnAFK(t);
+                AFK.FakeUnAFK(t);
                 break;
             }
             case "entitydie": {
                 AllEntitiesDie troll3 = new AllEntitiesDie();
-                troll3.EntityDie(t);
+                AllEntitiesDie.EntityDie(t);
                 break;
             }
             case "annoy": {
                 Annoy troll4 = new Annoy();
-                troll4.Annoy(t);
+                Annoy.Annoy(t);
                 break;
             }
             case "anvildrop": {
                 AnvilDrop troll5 = new AnvilDrop();
-                troll5.Anvil(t);
+                AnvilDrop.Anvil(t);
                 break;
             }
             case "aquaphobia": {
@@ -407,7 +408,7 @@ public class TrollWithCMD
             }
             case "freefall": {
                 FreeFall trollpg53 = new FreeFall();
-                trollpg53.FreeFall(t);
+                FreeFall.FreeFall(t);
                 break;
             }
             case "reversemessage": {
@@ -416,10 +417,10 @@ public class TrollWithCMD
                 break;
             }
             case "test": {
-              Test trollpg55 = new Test();
-            trollpg55.Test(t);
+                Test trollpg55 = new Test();
+                Test.Test(t);
                 break;
-           }
+            }
             case "guardian": {
                 Guardian trollpg56 = new Guardian();
                 trollpg56.Guardian(t);
@@ -433,10 +434,9 @@ public class TrollWithCMD
             case "control": {
                 String message2 = (String) Core.instance.getConfig().get("cannot-troll-yourself");
                 String replaced2 = message2.replace("&", "§");
-                if(t.equals(sender)) {
+                if (t.equals(sender)) {
                     sender.sendMessage(replaced2);
-                }
-                else {
+                } else {
                     Player sendr = (Player) sender;
                     sendr.performCommand("control " + t.getName());
                 }
@@ -459,7 +459,7 @@ public class TrollWithCMD
             for (Player p : Bukkit.getOnlinePlayers()) {
                 commands.add(p.getName());
             }
-            StringUtil.copyPartialMatches((String)args[0], commands, completions);
+            StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length == 2) {
             if (!args[0].isEmpty()) {
                 commands.add("afk");
@@ -538,7 +538,7 @@ public class TrollWithCMD
                 commands.add("control");
                 commands.add("ringoffire");
             }
-            StringUtil.copyPartialMatches((String)args[1], commands, completions);
+            StringUtil.copyPartialMatches(args[1], commands, completions);
         }
         Collections.sort(completions);
         return completions;

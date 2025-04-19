@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
  */
 public abstract class CommandHandler<T extends JavaPlugin> extends Command implements CommandExecutor, PluginIdentifiableCommand {
 
-    private T plugin;
-    private boolean register = false;
-    private HashMap<Integer, ArrayList<TabCommand>> tabComplete;
+    private final T plugin;
+    private final boolean register = false;
+    private final HashMap<Integer, ArrayList<TabCommand>> tabComplete;
 
 
     /**
@@ -39,9 +39,9 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
 
 
     //<editor-fold desc="add">
+
     /**
      * @param description description of the command
-     *
      * @return CommandHandler, instance of the class
      */
     protected CommandHandler addDescription(String description) {
@@ -52,7 +52,6 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
 
     /**
      * @param use use of the command (ex: /myCmd [val1]
-     *
      * @return CommandHandler, instance of the class
      */
     protected CommandHandler addUsage(String use) {
@@ -63,7 +62,6 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
 
     /**
      * @param aliases aliases of the command.
-     *
      * @return CommandHandler, instance of the class
      */
     protected CommandHandler addAliases(String... aliases) {
@@ -73,6 +71,7 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
     }
 
     //<editor-fold desc="TabbComplete">
+
     /**
      * Adds an argument to an index with permission and the words before
      *
@@ -81,7 +80,6 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
      * @param permission permission to add (may be null)
      * @param arg        word to add
      * @param beforeText text preceding the argument (may be null)
-     *
      * @return CommandHandler, instance of the class
      */
     protected CommandHandler addOneTabbComplete(int indice, String permission, String arg, String... beforeText) {
@@ -105,21 +103,20 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
      * @param permission permission to add (may be null)
      * @param arg        mots à ajouter
      * @param beforeText text preceding the argument (may be null)
-     *
      * @return CommandHandler, instance of the class
      */
     protected CommandHandler addListTabbComplete(int indice, String permission, String[] beforeText, String... arg) {
         if (arg != null && arg.length > 0 && indice >= 0) {
             if (tabComplete.containsKey(indice)) {
                 tabComplete.get(indice).addAll(Arrays.stream(arg).collect(
-                        ArrayList::new,
-                        (tabCommands, s) -> tabCommands.add(new TabCommand(indice, s, permission, beforeText)),
-                        ArrayList::addAll));
+                    ArrayList::new,
+                    (tabCommands, s) -> tabCommands.add(new TabCommand(indice, s, permission, beforeText)),
+                    ArrayList::addAll));
             } else {
                 tabComplete.put(indice, Arrays.stream(arg).collect(
-                        ArrayList::new,
-                        (tabCommands, s) -> tabCommands.add(new TabCommand(indice, s, permission, beforeText)),
-                        ArrayList::addAll)
+                    ArrayList::new,
+                    (tabCommands, s) -> tabCommands.add(new TabCommand(indice, s, permission, beforeText)),
+                    ArrayList::addAll)
                 );
             }
         }
@@ -132,10 +129,9 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
      * @param indice index where the argument is in the command. /myCmd is at the index -1, so
      *               /myCmd index0 index1 ...
      * @param arg    mots à ajouter
-     *
      * @return CommandHandler, instance of the class
      */
-    protected CommandHandler addListTabbComplete(int indice,String perms, String... arg) {
+    protected CommandHandler addListTabbComplete(int indice, String perms, String... arg) {
         if (arg != null && arg.length > 0 && indice >= 0) {
             addListTabbComplete(indice, perms, null, arg);
         }
@@ -147,7 +143,6 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
      * add permission to command
      *
      * @param permission permission to add (may be null)
-     *
      * @return CommandHandler, instance of the class
      */
     protected CommandHandler addPermission(String permission) {
@@ -158,7 +153,6 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
 
     /**
      * @param permissionMessage message if the player does not have permission
-     *
      * @return CommandHandler, instance of the class
      */
     protected CommandHandler addPermissionMessage(String permissionMessage) {
@@ -177,14 +171,14 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
      *                   f.setAccessible(true);<br/>
      *                   CommandMap commandMap = (CommandMap) f.get(Bukkit.getServer());
      *                   </code>
-     *
      * @return true if the command has been successfully registered
      */
     protected boolean registerCommand(CommandMap commandMap) {
-        return register ? false : commandMap.register("", this);
+        return !register && commandMap.register("", this);
     }
 
     //<editor-fold desc="get">
+
     /**
      * @return plugin responsible for the command
      */
@@ -203,25 +197,25 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
 
 
     //<editor-fold desc="Override">
+
     /**
      * @param commandSender sender
      * @param command       command
      * @param arg           argument of the command
-     *
      * @return true if ok, false otherwise
      */
     @Override
     public boolean execute(CommandSender commandSender, String command, String[] arg) {
-        if(commandSender instanceof Player){
+        if (commandSender instanceof Player) {
             Player p = (Player) commandSender;
             if (getPermission() != null) {
                 if (!Core.advCheck(getPermission(), p)) {
                     if (getPermissionMessage() == null) {
-                        if(Core.instance.getConfig().getBoolean("values.using-no-perm")){
+                        if (Core.instance.getConfig().getBoolean("values.using-no-perm")) {
                             commandSender.sendMessage(ChatColor.RED + "no permit!");
                         }
                     } else {
-                        if(Core.instance.getConfig().getBoolean("values.using-no-perm")){
+                        if (Core.instance.getConfig().getBoolean("values.using-no-perm")) {
                             commandSender.sendMessage(getPermissionMessage());
                         }
                     }
@@ -238,23 +232,22 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
 
     /**
      * @param sender sender
-     * @param alias alias used
-     * @param args argument of the command
-     *
+     * @param alias  alias used
+     * @param args   argument of the command
      * @return a list of possible values
      */
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) {
 
         int indice = args.length - 1;
-        if(sender instanceof Player){
+        if (sender instanceof Player) {
             if ((getPermission() != null && !Core.advCheck(getPermission(), ((Player) sender).getPlayer())) || tabComplete.size() == 0 || !tabComplete.containsKey(indice))
                 return super.tabComplete(sender, alias, args);
 
             ArrayList<String> list = tabComplete.get(indice).stream().filter(tabCommand ->
-                    (tabCommand.getTextAvant() == null || tabCommand.getTextAvant().contains(args[indice - 1])) &&
-                            (tabCommand.getPermission() == null || Core.advCheck(tabCommand.getPermission(), ((Player) sender).getPlayer())) &&
-                            (tabCommand.getText().startsWith(args[indice]))
+                (tabCommand.getTextAvant() == null || tabCommand.getTextAvant().contains(args[indice - 1])) &&
+                    (tabCommand.getPermission() == null || Core.advCheck(tabCommand.getPermission(), ((Player) sender).getPlayer())) &&
+                    (tabCommand.getText().startsWith(args[indice]))
             ).map(TabCommand::getText).collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
 
             return list.size() < 1 ? super.tabComplete(sender, alias, args) : list;
@@ -267,10 +260,10 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
     //<editor-fold desc="class TabCommand">
     private class TabCommand {
 
-        private int indice;
-        private String text;
-        private String permission;
-        private ArrayList<String> textAvant;
+        private final int indice;
+        private final String text;
+        private final String permission;
+        private final ArrayList<String> textAvant;
 
         private TabCommand(int indice, String text, String permission, String... textAvant) {
             this.indice = indice;
@@ -280,8 +273,8 @@ public abstract class CommandHandler<T extends JavaPlugin> extends Command imple
                 this.textAvant = null;
             } else {
                 this.textAvant = Arrays.stream(textAvant).collect(ArrayList::new,
-                        ArrayList::add,
-                        ArrayList::addAll);
+                    ArrayList::add,
+                    ArrayList::addAll);
             }
         }
 

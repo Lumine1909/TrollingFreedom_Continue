@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ExplosiveSheep implements Listener {
-    private ArrayList<Sheep> sheepArrayList = new ArrayList<>();
+
+    private final ArrayList<Sheep> sheepArrayList = new ArrayList<>();
 
     public void Sheep(Player p) {
         String p2 = p.getName();

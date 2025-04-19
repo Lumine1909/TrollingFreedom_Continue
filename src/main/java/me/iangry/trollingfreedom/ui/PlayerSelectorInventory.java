@@ -22,8 +22,30 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class PlayerSelectorInventory implements InventoryHolder, Listener {
+
+    static PlayerSelectorInventory main;
     private final Inventory inv;
     private final Inventory inv2;
+    ItemStack nextPage = createGuiItem(XMaterial.REDSTONE_BLOCK, true, Core.getPathCC("items.nextpage-name"), Core.getPathCC("items.nextpage-lore"));
+    ItemStack mainPage = createGuiItem(XMaterial.REDSTONE_BLOCK, true, Core.getPathCC("items.mainpage-name"), Core.getPathCC("items.mainpage-lore"));
+    ItemStack untrollall = createGuiItem(XMaterial.BEACON, false, Core.tcc(Core.instance.getConfig().getString("items.Untrollall-name")), Core.tcc(Core.instance.getConfig().getString("items.Untrollall-lore")));
+    // You can call this whenever you want to put the items in
+    int playersdone = 0;
+
+    public PlayerSelectorInventory() {
+        Bukkit.getPluginManager().registerEvents(this, Core.instance);
+        // Create a new inventory, with "this" owner for comparison with other inventories, a size of nine, called example
+        inv = Bukkit.createInventory(this, 54, centerTitle(Core.instance.getP() + Core.tcc(Core.instance.getConfig().getString("menu.select-player"))));
+        inv2 = Bukkit.createInventory(this, 54, centerTitle(Core.instance.getP() + Core.tcc(Core.instance.getConfig().getString("menu.select-player"))));
+        // Put the items into the inventory
+        main = this;
+        initializeItems();
+    }
+
+    public static PlayerSelectorInventory getPS() {
+        return main;
+    }
+
     public String centerTitle(String title) {
         StringBuilder result = new StringBuilder();
         int spaces = (27 - ChatColor.stripColor(title).length());
@@ -34,36 +56,21 @@ public class PlayerSelectorInventory implements InventoryHolder, Listener {
 
         return result.append(title).toString();
     }
-    static PlayerSelectorInventory main;
-
-    public static PlayerSelectorInventory getPS(){
-        return main;
-    }
-    public PlayerSelectorInventory()
-    {
-        Bukkit.getPluginManager().registerEvents(this, Core.instance);
-        // Create a new inventory, with "this" owner for comparison with other inventories, a size of nine, called example
-        inv = Bukkit.createInventory(this, 54, centerTitle(Core.instance.getP()+ Core.tcc(Core.instance.getConfig().getString("menu.select-player"))));
-        inv2 = Bukkit.createInventory(this, 54, centerTitle(Core.instance.getP()+ Core.tcc(Core.instance.getConfig().getString("menu.select-player"))));
-        // Put the items into the inventory
-        main = this;
-        initializeItems();
-    }
 
     @Override
     public @NotNull
-    Inventory getInventory()
-    {
+    Inventory getInventory() {
         return inv;
     }
+
     // Nice little method to create a gui item with a custom name, and description
-    protected ItemStack createGuiItem(final XMaterial XMaterial, final Boolean isEnchanted , final String name, final String... lore) {
+    protected ItemStack createGuiItem(final XMaterial XMaterial, final Boolean isEnchanted, final String name, final String... lore) {
         final ItemStack item = new ItemStack(XMaterial.parseMaterial(), 1);
         final ItemMeta meta = item.getItemMeta();
 
         // Set the name of the item
         meta.setDisplayName(name);
-        if(isEnchanted){
+        if (isEnchanted) {
             meta.addEnchant(XEnchantment.DURABILITY.parseEnchantment(), 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
@@ -74,15 +81,8 @@ public class PlayerSelectorInventory implements InventoryHolder, Listener {
 
         return item;
     }
-    ItemStack nextPage = createGuiItem(XMaterial.REDSTONE_BLOCK, true, Core.getPathCC("items.nextpage-name"), Core.getPathCC("items.nextpage-lore"));
-    ItemStack mainPage = createGuiItem(XMaterial.REDSTONE_BLOCK, true, Core.getPathCC("items.mainpage-name"), Core.getPathCC("items.mainpage-lore"));
 
-    ItemStack untrollall = createGuiItem(XMaterial.BEACON, false, Core.tcc(Core.instance.getConfig().getString("items.Untrollall-name")), Core.tcc(Core.instance.getConfig().getString("items.Untrollall-lore")));
-
-    // You can call this whenever you want to put the items in
-    int playersdone = 0;
-    public void initializeItems()
-    {
+    public void initializeItems() {
 
         Bukkit.getOnlinePlayers().forEach(o -> {
 
@@ -92,12 +92,12 @@ public class PlayerSelectorInventory implements InventoryHolder, Listener {
             SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
             skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(o.getUniqueId()));
             skullMeta.setDisplayName(o.getName());
-            if(o.isOp()){
+            if (o.isOp()) {
                 skullMeta.setLore(Collections.singletonList(Core.getPathCC("items.messages.isOP")));
             }
 
             item.setItemMeta(skullMeta);
-            if(playersdone > inv.getSize()-7){
+            if (playersdone > inv.getSize() - 7) {
                 inv2.addItem(item);
                 inv2.setItem(49, untrollall);
             } else {
@@ -109,30 +109,28 @@ public class PlayerSelectorInventory implements InventoryHolder, Listener {
 
         });
 
-        if(Bukkit.getOnlinePlayers().size() > inv.getSize()-7){
+        if (Bukkit.getOnlinePlayers().size() > inv.getSize() - 7) {
             inv.setItem(53, nextPage);
         }
-        if(Bukkit.getOnlinePlayers().size() > inv2.getSize()-7){
+        if (Bukkit.getOnlinePlayers().size() > inv2.getSize() - 7) {
             inv2.setItem(53, mainPage);
         }
     }
 
     // You can open the inventory with this
-    public void openUniInv(final HumanEntity ent, Inventory inv)
-    {
+    public void openUniInv(final HumanEntity ent, Inventory inv) {
         ent.openInventory(inv);
     }
 
-    public void openSel(final HumanEntity ent)
-    {
+    public void openSel(final HumanEntity ent) {
         ent.openInventory(inv);
     }
+
     // Check for clicks on items
     @EventHandler
-    public void onInventoryClick(final InventoryClickEvent e)
-    {
+    public void onInventoryClick(final InventoryClickEvent e) {
         if (e.getInventory().getHolder() != this) return;
-            e.setCancelled(true);
+        e.setCancelled(true);
 
         final ItemStack clickedItem = e.getCurrentItem();
         if (clickedItem == null || clickedItem.getType() == XMaterial.AIR.parseMaterial()) return;
@@ -140,21 +138,21 @@ public class PlayerSelectorInventory implements InventoryHolder, Listener {
         final Player p = (Player) e.getWhoClicked();
 
         //untroll all
-        if(clickedItem.equals(untrollall)) {
+        if (clickedItem.equals(untrollall)) {
             p.performCommand("untroll all");
             //
         }
 
-        if(clickedItem.equals(nextPage)) {
+        if (clickedItem.equals(nextPage)) {
             p.closeInventory();
             openUniInv(p, inv2);
-        } else if(clickedItem.equals(mainPage)){
+        } else if (clickedItem.equals(mainPage)) {
             p.closeInventory();
             openUniInv(p, inv);
         }
         final Player Vic = Bukkit.getPlayerExact(clickedItem.getItemMeta().getDisplayName());
-        if(Vic != null){
-            if(Vic instanceof Player){
+        if (Vic != null) {
+            if (Vic instanceof Player) {
                 TrollInventory gt = new TrollInventory(Vic);
                 gt.openInventory(p);
             }

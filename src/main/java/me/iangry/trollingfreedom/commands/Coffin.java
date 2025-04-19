@@ -30,12 +30,12 @@ public class Coffin implements Listener {
                         entity.remove();
 
 
-
-                    return true;
-                }
+                return true;
+            }
         }
         return false;
     }
+
     public void p1(ArmorStand[] a) {
         int i;
         for (i = 0; i < 3; i++) {
@@ -109,12 +109,12 @@ public class Coffin implements Listener {
         loc.setZ(Math.round(loc.getZ()) + 0.5D);
 
         Block[] cb = {
-                loc.add(3.0D, 2.0D, 0.0D).getBlock(),
-                loc.add(1.0D, 0.0D, 0.0D).getBlock(),
-                loc.add(1.0D, 0.0D, 0.0D).getBlock(),
-                loc.add(0.0D, 0.0D, 1.0D).getBlock(),
-                loc.add(-1.0D, 0.0D, 0.0D).getBlock(),
-                loc.add(-1.0D, 0.0D, 0.0D).getBlock(),
+            loc.add(3.0D, 2.0D, 0.0D).getBlock(),
+            loc.add(1.0D, 0.0D, 0.0D).getBlock(),
+            loc.add(1.0D, 0.0D, 0.0D).getBlock(),
+            loc.add(0.0D, 0.0D, 1.0D).getBlock(),
+            loc.add(-1.0D, 0.0D, 0.0D).getBlock(),
+            loc.add(-1.0D, 0.0D, 0.0D).getBlock(),
 
         };
 
@@ -265,7 +265,7 @@ public class Coffin implements Listener {
                 }
                 Coffin.this.procedure++;
             }
-    },  5L, 5L);
+        }, 5L, 5L);
 
         //p.sendMessage(ChatColor.BLUE + "CoFfIn DaNcE");
         return true;

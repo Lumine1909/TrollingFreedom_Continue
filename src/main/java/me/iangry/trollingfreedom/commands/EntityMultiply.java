@@ -16,12 +16,12 @@ public class EntityMultiply implements Listener {
 
     public void EntityMultiply(Player p) {
         String p2 = p.getName();
-        this.EntityMultiply1.add(p.getName());
+        EntityMultiply1.add(p.getName());
     }
 
     public void UnEntityMultiply(Player p) {
         String p2 = p.getName();
-        this.EntityMultiply1.remove(p.getName());
+        EntityMultiply1.remove(p.getName());
     }
 
     @EventHandler
@@ -29,7 +29,7 @@ public class EntityMultiply implements Listener {
         Entity entity = event.getEntity();
         Entity p = event.getEntity().getKiller();
         if (event.getEntity().getKiller() == null) return;
-        if (this.EntityMultiply1.contains(p.getName())) {
+        if (EntityMultiply1.contains(p.getName())) {
             Location l = entity.getLocation();
             l.getWorld().spawnEntity(l, entity.getType());
             l.getWorld().spawnEntity(l, entity.getType());

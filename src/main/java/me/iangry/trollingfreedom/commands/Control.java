@@ -1,16 +1,8 @@
 package me.iangry.trollingfreedom.commands;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLib;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import me.iangry.trollingfreedom.main.Core;
 import me.iangry.trollingfreedom.ui.PlayerSelectorInventory;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,11 +20,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Control implements CommandExecutor, Listener {
+
     public static List<String> controlled1 = new ArrayList<>();
 
     public static List<String> controller1 = new ArrayList<>();
@@ -54,7 +47,6 @@ public class Control implements CommandExecutor, Listener {
 
             String message2 = (String) Core.instance.getConfig().get("no-perms");
             String replaced2 = message2.replace("&", "§").replace("%player%", sender.getName());
-            ;
             sender.sendMessage(replaced2);
             return false;
         }
@@ -256,8 +248,8 @@ public class Control implements CommandExecutor, Listener {
         Player controller = Bukkit.getServer().getPlayer(controller1.toString().replaceAll("\\[", "").replaceAll("\\]", ""));
         if (controlled1.contains(controlled.getPlayer().getName())) {
             if ((event.getAction() == Action.LEFT_CLICK_AIR
-                    || event.getAction() == Action.LEFT_CLICK_BLOCK)
-                    && player != null) {
+                || event.getAction() == Action.LEFT_CLICK_BLOCK)
+                && player != null) {
 
                 if (event.getHand() == EquipmentSlot.HAND) {
                     controlled.swingMainHand();

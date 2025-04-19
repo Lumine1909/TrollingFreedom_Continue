@@ -16,20 +16,20 @@ public class SneakDestroy implements Listener {
 
     public void SneakDestroy(Player p) {
         String p2 = p.getName();
-        this.Sneak1.add(p.getName());
+        Sneak1.add(p.getName());
     }
 
     public void UnSneakDestroy(Player p) {
         String p2 = p.getName();
-        this.Sneak1.remove(p.getName());
-        this.Sneak1.remove(p.getName());
-        this.Sneak1.remove(p.getName());
+        Sneak1.remove(p.getName());
+        Sneak1.remove(p.getName());
+        Sneak1.remove(p.getName());
     }
 
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent event) {
         Player p = event.getPlayer();
-        if (this.Sneak1.contains(p.getName())) {
+        if (Sneak1.contains(p.getName())) {
             Location loc = p.getLocation().clone().add(0.0D, -1.0D, 0.0D);
             loc.getBlock().setType(Material.AIR);
         }

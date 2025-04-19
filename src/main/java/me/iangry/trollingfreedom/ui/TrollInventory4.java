@@ -28,25 +28,16 @@ import java.util.function.BiConsumer;
 
 public class TrollInventory4 implements Listener, InventoryHolder {
 
-    HashMap<String, String> launchedPlayers = new HashMap<String, String>();
-    HashMap<String, String> clearedFPlayers = new HashMap<String, String>();
+    static TrollInventory4 main;
     //HashMaps for Toggabels
     private final Inventory inv;
-    static TrollInventory4 main;
+    HashMap<String, String> launchedPlayers = new HashMap<String, String>();
+    HashMap<String, String> clearedFPlayers = new HashMap<String, String>();
     Player VictimPlayer;
-    public String getNOU(Player p){
-        return Core.uid()?p.getName():p.getUniqueId().toString();
-    }
-    public String centerTitle(String title) {
-        StringBuilder result = new StringBuilder();
-        int spaces = (27 - ChatColor.stripColor(title).length());
+    ItemStack unTroll = createGuiItem(XMaterial.BARRIER, true, Core.getPathCC("items.Untroll-name"), Core.getPathCC("items.Untroll-lore"));
+    ItemStack secondPage = createGuiItem(XMaterial.ARROW, true, Core.getPathCC("items.nextpage-name"), Core.getPathCC("items.nextpage-lore"));
+    ItemStack backPage = createGuiItem(XMaterial.ARROW, true, Core.getPathCC("items.backpage-name"), Core.getPathCC("items.backpage-lore"));
 
-        for (int i = 0; i < spaces; i++) {
-            result.append(" ");
-        }
-
-        return result.append(title).toString();
-    }
     public TrollInventory4(Player vic) {
 
         VictimPlayer = vic;
@@ -58,10 +49,12 @@ public class TrollInventory4 implements Listener, InventoryHolder {
         initializeItems();
 
     }
+
     //To use method beyond this codeA
     public static TrollInventory4 getGUI() {
         return main;
     }
+
     public static HashMap getMaps(String maps) {
         switch (maps) {
             case "LP":
@@ -72,48 +65,58 @@ public class TrollInventory4 implements Listener, InventoryHolder {
         // FrZLayers... creative.
         return null;
     }
+
+    // You can call this whenever you want to put the items in
+
+    //  ItemStack mainPage = createGuiItem(XMaterial.REDSTONE_BLOCK, true, Core.getPathCC("items.Playerselector-name"), Core.getPathCC("items.Playerselector-lore"));
+
+    public String getNOU(Player p) {
+        return Core.uid() ? p.getName() : p.getUniqueId().toString();
+    }
+
+    public String centerTitle(String title) {
+        StringBuilder result = new StringBuilder();
+        int spaces = (27 - ChatColor.stripColor(title).length());
+
+        for (int i = 0; i < spaces; i++) {
+            result.append(" ");
+        }
+
+        return result.append(title).toString();
+    }
+
     @Override
     public Inventory getInventory() {
         return inv;
     }
-
-    // You can call this whenever you want to put the items in
-
-  //  ItemStack mainPage = createGuiItem(XMaterial.REDSTONE_BLOCK, true, Core.getPathCC("items.Playerselector-name"), Core.getPathCC("items.Playerselector-lore"));
-
-    ItemStack unTroll = createGuiItem(XMaterial.BARRIER, true, Core.getPathCC("items.Untroll-name"), Core.getPathCC("items.Untroll-lore"));
-
-    ItemStack secondPage = createGuiItem(XMaterial.ARROW, true, Core.getPathCC("items.nextpage-name"), Core.getPathCC("items.nextpage-lore"));
-
-    ItemStack backPage = createGuiItem(XMaterial.ARROW, true, Core.getPathCC("items.backpage-name"), Core.getPathCC("items.backpage-lore"));
 
     public void initializeItems() {
         ItemStack plc = new ItemStack(XMaterial.CYAN_STAINED_GLASS_PANE.parseMaterial(), 1);
         ItemMeta meta = plc.getItemMeta();
         meta.setDisplayName(" ");
         plc.setItemMeta(meta);
-        for(Integer i = 0; i < 45; i++){
+        for (Integer i = 0; i < 45; i++) {
             inv.setItem(i, plc);
         }
 
-        inv.setItem(10,createGuiItem(XMaterial.GHAST_SPAWN_EGG, false, Core.tcc(Core.instance.getConfig().getString("items.ghastsound-name")), Core.tcc(Core.instance.getConfig().getString("items.ghastsound-lore"))));
-        inv.setItem(11,createGuiItem(XMaterial.TNT, false, Core.tcc(Core.instance.getConfig().getString("items.nuke-name")), Core.tcc(Core.instance.getConfig().getString("items.nuke-lore"))));
-        inv.setItem(12,createGuiItem(XMaterial.TNT, false, Core.tcc(Core.instance.getConfig().getString("items.tntplace-name")), Core.tcc(Core.instance.getConfig().getString("items.tntplace-lore"))));
-        inv.setItem(13,createGuiItem(XMaterial.STRUCTURE_BLOCK, false, Core.tcc(Core.instance.getConfig().getString("items.void-name")), Core.tcc(Core.instance.getConfig().getString("items.void-lore"))));
-        inv.setItem(14,createGuiItem(XMaterial.GREEN_WOOL, false, Core.tcc(Core.instance.getConfig().getString("items.vomit-name")), Core.tcc(Core.instance.getConfig().getString("items.vomit-lore"))));
-        inv.setItem(15,createGuiItem(XMaterial.DIRT, false, Core.tcc(Core.instance.getConfig().getString("items.worldloading-name")), Core.tcc(Core.instance.getConfig().getString("items.worldloading-lore"))));
-        inv.setItem(16,createGuiItem(XMaterial.PAPER, false, Core.tcc(Core.instance.getConfig().getString("items.explodeonchat-name")), Core.tcc(Core.instance.getConfig().getString("items.explodeonchat-lore"))));
-        inv.setItem(19,createGuiItem(XMaterial.RED_STAINED_GLASS_PANE, false, Core.tcc(Core.instance.getConfig().getString("items.invrave-name")), Core.tcc(Core.instance.getConfig().getString("items.invrave-lore"))));
-        inv.setItem(20,createGuiItem(XMaterial.LEATHER_BOOTS, false, Core.tcc(Core.instance.getConfig().getString("items.invert-name")), Core.tcc(Core.instance.getConfig().getString("items.invert-lore"))));
-        inv.setItem(21,createGuiItem(XMaterial.BLACK_BED, false, Core.tcc(Core.instance.getConfig().getString("items.bednight-name")), Core.tcc(Core.instance.getConfig().getString("items.bednight-lore"))));
-        inv.setItem(22,createGuiItem(XMaterial.GREEN_BED, false, Core.tcc(Core.instance.getConfig().getString("items.bedmonster-name")), Core.tcc(Core.instance.getConfig().getString("items.bedmonster-lore"))));
-        inv.setItem(23,createGuiItem(XMaterial.BLUE_BED, false, Core.tcc(Core.instance.getConfig().getString("items.stopsleep-name")), Core.tcc(Core.instance.getConfig().getString("items.stopsleep-lore"))));
-        inv.setItem(24,createGuiItem(XMaterial.WHITE_WOOL, false, Core.tcc(Core.instance.getConfig().getString("items.freefall-name")), Core.tcc(Core.instance.getConfig().getString("items.freefall-lore"))));
-        inv.setItem(25,createGuiItem(XMaterial.PAPER, false, Core.tcc(Core.instance.getConfig().getString("items.reversemessage-name")), Core.tcc(Core.instance.getConfig().getString("items.reversemessage-lore"))));
-        inv.setItem(29,createGuiItem(XMaterial.ELDER_GUARDIAN_SPAWN_EGG, false, Core.tcc(Core.instance.getConfig().getString("items.guardian-name")), Core.tcc(Core.instance.getConfig().getString("items.guardian-lore"))));
-        inv.setItem(30,createGuiItem(XMaterial.COCOA_BEANS, false, Core.tcc(Core.instance.getConfig().getString("items.poop-name")), Core.tcc(Core.instance.getConfig().getString("items.poop-lore"))));
-        inv.setItem(31,createGuiItem(XMaterial.CARROT_ON_A_STICK, false, Core.tcc(Core.instance.getConfig().getString("items.control-name")), Core.tcc(Core.instance.getConfig().getString("items.control-lore"))));
-        inv.setItem(32,createGuiItem(XMaterial.FLINT_AND_STEEL, false, Core.tcc(Core.instance.getConfig().getString("items.ringoffire-name")), Core.tcc(Core.instance.getConfig().getString("items.ringoffire-lore"))));
+        inv.setItem(10, createGuiItem(XMaterial.GHAST_SPAWN_EGG, false, Core.tcc(Core.instance.getConfig().getString("items.ghastsound-name")), Core.tcc(Core.instance.getConfig().getString("items.ghastsound-lore"))));
+        inv.setItem(11, createGuiItem(XMaterial.TNT, false, Core.tcc(Core.instance.getConfig().getString("items.nuke-name")), Core.tcc(Core.instance.getConfig().getString("items.nuke-lore"))));
+        inv.setItem(12, createGuiItem(XMaterial.TNT, false, Core.tcc(Core.instance.getConfig().getString("items.tntplace-name")), Core.tcc(Core.instance.getConfig().getString("items.tntplace-lore"))));
+        inv.setItem(13, createGuiItem(XMaterial.STRUCTURE_BLOCK, false, Core.tcc(Core.instance.getConfig().getString("items.void-name")), Core.tcc(Core.instance.getConfig().getString("items.void-lore"))));
+        inv.setItem(14, createGuiItem(XMaterial.GREEN_WOOL, false, Core.tcc(Core.instance.getConfig().getString("items.vomit-name")), Core.tcc(Core.instance.getConfig().getString("items.vomit-lore"))));
+        inv.setItem(15, createGuiItem(XMaterial.DIRT, false, Core.tcc(Core.instance.getConfig().getString("items.worldloading-name")), Core.tcc(Core.instance.getConfig().getString("items.worldloading-lore"))));
+        inv.setItem(16, createGuiItem(XMaterial.PAPER, false, Core.tcc(Core.instance.getConfig().getString("items.explodeonchat-name")), Core.tcc(Core.instance.getConfig().getString("items.explodeonchat-lore"))));
+        inv.setItem(19, createGuiItem(XMaterial.RED_STAINED_GLASS_PANE, false, Core.tcc(Core.instance.getConfig().getString("items.invrave-name")), Core.tcc(Core.instance.getConfig().getString("items.invrave-lore"))));
+        inv.setItem(20, createGuiItem(XMaterial.LEATHER_BOOTS, false, Core.tcc(Core.instance.getConfig().getString("items.invert-name")), Core.tcc(Core.instance.getConfig().getString("items.invert-lore"))));
+        inv.setItem(21, createGuiItem(XMaterial.BLACK_BED, false, Core.tcc(Core.instance.getConfig().getString("items.bednight-name")), Core.tcc(Core.instance.getConfig().getString("items.bednight-lore"))));
+        inv.setItem(22, createGuiItem(XMaterial.GREEN_BED, false, Core.tcc(Core.instance.getConfig().getString("items.bedmonster-name")), Core.tcc(Core.instance.getConfig().getString("items.bedmonster-lore"))));
+        inv.setItem(23, createGuiItem(XMaterial.BLUE_BED, false, Core.tcc(Core.instance.getConfig().getString("items.stopsleep-name")), Core.tcc(Core.instance.getConfig().getString("items.stopsleep-lore"))));
+        inv.setItem(24, createGuiItem(XMaterial.WHITE_WOOL, false, Core.tcc(Core.instance.getConfig().getString("items.freefall-name")), Core.tcc(Core.instance.getConfig().getString("items.freefall-lore"))));
+        inv.setItem(25, createGuiItem(XMaterial.PAPER, false, Core.tcc(Core.instance.getConfig().getString("items.reversemessage-name")), Core.tcc(Core.instance.getConfig().getString("items.reversemessage-lore"))));
+        inv.setItem(29, createGuiItem(XMaterial.ELDER_GUARDIAN_SPAWN_EGG, false, Core.tcc(Core.instance.getConfig().getString("items.guardian-name")), Core.tcc(Core.instance.getConfig().getString("items.guardian-lore"))));
+        inv.setItem(30, createGuiItem(XMaterial.COCOA_BEANS, false, Core.tcc(Core.instance.getConfig().getString("items.poop-name")), Core.tcc(Core.instance.getConfig().getString("items.poop-lore"))));
+        inv.setItem(31, createGuiItem(XMaterial.CARROT_ON_A_STICK, false, Core.tcc(Core.instance.getConfig().getString("items.control-name")), Core.tcc(Core.instance.getConfig().getString("items.control-lore"))));
+        inv.setItem(32, createGuiItem(XMaterial.FLINT_AND_STEEL, false, Core.tcc(Core.instance.getConfig().getString("items.ringoffire-name")), Core.tcc(Core.instance.getConfig().getString("items.ringoffire-lore"))));
 
         //inv.setItem(36, mainPage);
 
@@ -124,13 +127,13 @@ public class TrollInventory4 implements Listener, InventoryHolder {
         inv.setItem(44, secondPage);
     }
 
-    protected ItemStack createGuiItem(final XMaterial XMaterial, final Boolean isEnchanted , final String name, final String... lore) {
+    protected ItemStack createGuiItem(final XMaterial XMaterial, final Boolean isEnchanted, final String name, final String... lore) {
         final ItemStack item = new ItemStack(XMaterial.parseMaterial(), 1);
         final ItemMeta meta = item.getItemMeta();
 
         // Set the name of the item
         meta.setDisplayName(name);
-        if(isEnchanted){
+        if (isEnchanted) {
             meta.addEnchant(XEnchantment.DURABILITY.parseEnchantment(), 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
@@ -164,7 +167,7 @@ public class TrollInventory4 implements Listener, InventoryHolder {
                 switch (e.getRawSlot()) {
                     case 10:
                         CaveSounds troll = new CaveSounds();
-                        troll.GhastSound(VictimPlayer);
+                        CaveSounds.GhastSound(VictimPlayer);
                         break;
                     case 11:
                         p.sendMessage("§b§lTF §8| §7Are you sure you want to §c§lNUKE §7" + VictimPlayer.getName() + "?");
@@ -211,7 +214,7 @@ public class TrollInventory4 implements Listener, InventoryHolder {
                         break;
                     case 13:
                         Void troll4 = new Void();
-                        troll4.Void(VictimPlayer);
+                        Void.Void(VictimPlayer);
                         break;
                     case 14:
                         Vomit troll5 = new Vomit();
@@ -258,7 +261,7 @@ public class TrollInventory4 implements Listener, InventoryHolder {
                         break;
                     case 16:
                         ExplodeOnChat troll7 = new ExplodeOnChat();
-                        troll7.Chat(VictimPlayer);
+                        ExplodeOnChat.Chat(VictimPlayer);
                         break;
                     case 19:
                         InventoryRave troll8 = new InventoryRave();
@@ -266,7 +269,7 @@ public class TrollInventory4 implements Listener, InventoryHolder {
                         break;
                     case 20:
                         InvertWalk troll9 = new InvertWalk();
-                        troll9.Invert(VictimPlayer);
+                        InvertWalk.Invert(VictimPlayer);
                         break;
                     case 21:
                         BedNight troll10 = new BedNight();
@@ -282,7 +285,7 @@ public class TrollInventory4 implements Listener, InventoryHolder {
                         break;
                     case 24:
                         FreeFall troll13 = new FreeFall();
-                        troll13.FreeFall(VictimPlayer);
+                        FreeFall.FreeFall(VictimPlayer);
                         break;
                     case 25:
                         ReverseMessage troll14 = new ReverseMessage();

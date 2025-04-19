@@ -27,62 +27,62 @@ public class RandomParticle implements Listener {
 
     @EventHandler
     public void onWalk(PlayerMoveEvent e) {
-        Player p = (Player) e.getPlayer();
-        if (this.RandomParticle1.contains(p.getName())) {
+        Player p = e.getPlayer();
+        if (RandomParticle1.contains(p.getName())) {
             // player is in water
             Random rnd = new Random();
             int rand = rnd.nextInt(11);
-            if(rand == 0){
+            if (rand == 0) {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.instance, () -> {
                     p.getWorld().spawnParticle(Particle.CLOUD, p.getLocation(), 10);
                 }, 100L);
 
-            } else if(rand == 1){
+            } else if (rand == 1) {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.instance, () -> {
                     p.getWorld().spawnParticle(Particle.LAVA, p.getLocation(), 10);
                 }, 100L);
 
-            } else if(rand == 3){
+            } else if (rand == 3) {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.instance, () -> {
                     p.getWorld().spawnParticle(Particle.SMOKE_NORMAL, p.getLocation(), 10);
                 }, 100L);
 
-            } else if(rand == 4) {
+            } else if (rand == 4) {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.instance, () -> {
                     p.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, p.getLocation(), 10);
                 }, 100L);
 
-            } else if(rand == 5) {
+            } else if (rand == 5) {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.instance, () -> {
                     p.getWorld().spawnParticle(Particle.PORTAL, p.getLocation(), 10);
                 }, 100L);
 
-            } else if(rand == 6) {
+            } else if (rand == 6) {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.instance, () -> {
                     p.getWorld().spawnParticle(Particle.BUBBLE_POP, p.getLocation(), 10);
                 }, 100L);
 
-            } else if(rand == 7) {
+            } else if (rand == 7) {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.instance, () -> {
                     p.getWorld().spawnParticle(Particle.CRIT, p.getLocation(), 10);
                 }, 100L);
 
-            } else if(rand == 8) {
+            } else if (rand == 8) {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.instance, () -> {
                     p.getWorld().spawnParticle(Particle.DOLPHIN, p.getLocation(), 10);
                 }, 100L);
 
-            } else if(rand == 9) {
+            } else if (rand == 9) {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.instance, () -> {
                     p.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE, p.getLocation(), 10);
                 }, 100L);
 
-            } else if(rand == 10) {
+            } else if (rand == 10) {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.instance, () -> {
                     p.getWorld().spawnParticle(Particle.HEART, p.getLocation(), 10);
                 }, 100L);
 
-            } else if(rand == 11) {
+            } else if (rand == 11) {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Core.instance, () -> {
                     p.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, p.getLocation(), 10);
                 }, 100L);

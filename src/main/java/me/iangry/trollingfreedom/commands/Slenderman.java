@@ -51,7 +51,7 @@ public class Slenderman implements Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-    Player p = e.getEntity();
+        Player p = e.getEntity();
         if (Slender1.contains(p.getName())) {
             UnEnderman(p);
         }

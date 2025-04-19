@@ -14,16 +14,18 @@ public class TNTPlace implements Listener {
 
     public void TNTPlace(Player p) {
         Player p2 = p.getPlayer();
-        this.Fireball1.add(p2.getName());
+        Fireball1.add(p2.getName());
     }
+
     public void UnTNTPlace(Player p) {
         Player p2 = p.getPlayer();
-        this.Fireball1.remove(p2.getName());
+        Fireball1.remove(p2.getName());
     }
+
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
-        if (this.Fireball1.contains(p.getName())) {
+        if (Fireball1.contains(p.getName())) {
             p.getLocation().getWorld().spawnEntity(e.getBlock().getLocation(), EntityType.PRIMED_TNT);
             e.getBlockPlaced().breakNaturally();
         }

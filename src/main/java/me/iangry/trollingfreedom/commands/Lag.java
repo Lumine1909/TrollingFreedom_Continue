@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 public class Lag implements Listener {
 
 
-
     public static void Lagg(final Player p) {
         String p2 = p.getName();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.instance, new Runnable() {

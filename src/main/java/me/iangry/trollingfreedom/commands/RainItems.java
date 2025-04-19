@@ -13,14 +13,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class RainItems implements Listener {
+
     public static ArrayList<String> Rain1 = new ArrayList<>();
 
     public void RainItem(Player p) {
         Rain1.add(p.getName());
-        Bukkit.getScheduler().scheduleSyncRepeatingTask((Plugin) Core.instance, new Runnable() {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.instance, new Runnable() {
             public void run() {
                 for (Player online : Bukkit.getOnlinePlayers()) {
                     ItemStack item = new ItemStack(Material.matchMaterial((String) Core.instance.getConfig().get("troll-config.rain-item-material")));

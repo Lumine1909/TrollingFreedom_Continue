@@ -1,21 +1,28 @@
-
-
 package me.iangry.trollingfreedom.commands;
 
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.EventHandler;
 import org.bukkit.Location;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.entity.Player;
-import java.util.ArrayList;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
 
-public class InvertWalk implements Listener
-{
-    public static ArrayList<String> Invert1 = new ArrayList<>();;
+import java.util.ArrayList;
+
+public class InvertWalk implements Listener {
+
+    public static ArrayList<String> Invert1 = new ArrayList<>();
 
     public static void Invert(final Player p) {
         Invert1.add(p.getName());
+    }
+
+    public static void UnInvert(final Player p) {
+        if (Invert1.contains(p.getName())) {
+            p.setWalkSpeed(0.2f);
+            p.setFlySpeed(0.1f);
+            Invert1.remove(p.getName());
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -29,15 +36,6 @@ public class InvertWalk implements Listener
             final double zDiff = from.getZ() - to.getZ();
             to.setX(from.getX() + xDiff);
             to.setZ(from.getZ() + zDiff);
-        }
-        return;
-    }
-
-    public static void UnInvert(final Player p) {
-        if (Invert1.contains(p.getName())) {
-            p.setWalkSpeed(0.2f);
-            p.setFlySpeed(0.1f);
-            Invert1.remove(p.getName());
         }
     }
 }

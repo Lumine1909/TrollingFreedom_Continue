@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import java.util.ArrayList;
 
 public class HideAllPlayers implements Listener {
+
     public static ArrayList<String> hide1 = new ArrayList<>();
 
     public void HideAll(Player p) {
@@ -16,10 +17,11 @@ public class HideAllPlayers implements Listener {
             p.hidePlayer(Core.instance, online);
         }
     }
-        public void UnHideAll (Player p){
-            hide1.remove(p.getName());
-            for (Player online : Bukkit.getOnlinePlayers()) {
-                p.showPlayer(Core.instance, online);
-            }
+
+    public void UnHideAll(Player p) {
+        hide1.remove(p.getName());
+        for (Player online : Bukkit.getOnlinePlayers()) {
+            p.showPlayer(Core.instance, online);
         }
     }
+}

@@ -13,7 +13,7 @@ import org.bukkit.plugin.Plugin;
 import java.util.ArrayList;
 
 public class Pumpkin implements Listener {
-  
+
 
     public static ArrayList<String> Pumpkin1 = new ArrayList<>();
 
@@ -23,14 +23,14 @@ public class Pumpkin implements Listener {
         if (helmet != null) {
             p.getWorld().dropItem(p.getLocation(), helmet);
             Pumpkin1.add(p2.getName());
-            Bukkit.getScheduler().scheduleSyncRepeatingTask((Plugin) Core.instance, () -> {
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.instance, () -> {
                 ItemStack stack = new ItemStack(Material.CARVED_PUMPKIN);
                 p.getInventory().setHelmet(stack);
             }, 10L, 5L);
         } else {
 
             Pumpkin1.add(p2.getName());
-            Bukkit.getScheduler().scheduleSyncRepeatingTask((Plugin) Core.instance, () -> {
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.instance, () -> {
                 ItemStack stack = new ItemStack(Material.CARVED_PUMPKIN);
                 p.getInventory().setHelmet(stack);
             }, 10L, 5L);
@@ -39,9 +39,9 @@ public class Pumpkin implements Listener {
 
     public void unPumpkin(Player p) {
         Player p2 = p.getPlayer();
-        if (this.Pumpkin1.contains(p.getName())) {
+        if (Pumpkin1.contains(p.getName())) {
             Pumpkin1.remove(p2.getName());
-            Bukkit.getScheduler().cancelTasks((Plugin) Core.instance);
+            Bukkit.getScheduler().cancelTasks(Core.instance);
             if (p.getInventory().getHelmet() == null) {
                 return;
             }
@@ -51,19 +51,18 @@ public class Pumpkin implements Listener {
             }
         }
     }
-        @EventHandler
-        public void onPumpkinMove(InventoryClickEvent event) {
-            Player player = (Player) event.getWhoClicked();
-            if (this.Pumpkin1.contains(player.getName())) {
-                    ItemStack clicked = event.getCurrentItem();
-                    if( clicked.getType().equals(Material.CARVED_PUMPKIN)) {
-                        event.setCancelled(true);
-                    }
-                    else {
-                        return;
-                    }
 
-                }
+    @EventHandler
+    public void onPumpkinMove(InventoryClickEvent event) {
+        Player player = (Player) event.getWhoClicked();
+        if (Pumpkin1.contains(player.getName())) {
+            ItemStack clicked = event.getCurrentItem();
+            if (clicked.getType().equals(Material.CARVED_PUMPKIN)) {
+                event.setCancelled(true);
+            } else {
             }
+
         }
+    }
+}
 

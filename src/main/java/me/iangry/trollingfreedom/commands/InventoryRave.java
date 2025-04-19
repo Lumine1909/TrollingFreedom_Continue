@@ -1,10 +1,5 @@
 package me.iangry.trollingfreedom.commands;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import me.iangry.trollingfreedom.main.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -23,7 +18,14 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class InventoryRave implements Listener {
+
     public static ArrayList<String> Rave1 = new ArrayList<>();
     private int r = 255, g = 0, b = 0;
 
@@ -48,6 +50,7 @@ public class InventoryRave implements Listener {
         content = ((List<ItemStack>) c.get("inventory.content")).toArray(new ItemStack[0]);
         p.getInventory().setContents(content);
     }
+
     public void deleteInventoryFile(Player p) throws IOException {
         File f = new File(Core.instance.getDataFolder().getAbsolutePath(), p.getName() + ".yml");
         f.delete();
@@ -55,7 +58,6 @@ public class InventoryRave implements Listener {
 
     public void InvRave(Player p) throws IOException {
         if (Rave1.contains(p.getName())) {
-            return;
         } else {
             Rave1.add(p.getName());
             saveInventory(p);
@@ -67,13 +69,12 @@ public class InventoryRave implements Listener {
     public void UnInvRave(Player p) throws IOException {
         if (Rave1.contains(p.getName())) {
             Rave1.remove(p.getName());
-            Bukkit.getScheduler().cancelTasks((Plugin)Core.instance);
+            Bukkit.getScheduler().cancelTasks(Core.instance);
             p.getInventory().clear();
             p.getInventory().setArmorContents(null);
             restoreInventory(p);
             deleteInventoryFile(p);
         } else {
-            return;
         }
     }
 
@@ -81,44 +82,43 @@ public class InventoryRave implements Listener {
     public void onDrop(PlayerDropItemEvent event) {
         if (Rave1.contains(event.getPlayer().getName()))
             event.setCancelled(true);
-        return;
     }
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
         if (Rave1.contains(event.getPlayer().getName()))
             event.setCancelled(true);
-        return;
     }
 
     public void Rave(final Player p) {
         (new BukkitRunnable() {
-            int i = 0;
+            final int i = 0;
 
             public void run() {
                 p.getInventory().clear();
                 for (int counter = 1; counter <= 36; counter++)
-                    p.getInventory().setItem(p.getInventory().firstEmpty(), new ItemStack(Material.LEGACY_STAINED_GLASS_PANE, 1, (short)(byte)((new Random()).nextInt(13) + 1)));
+                    p.getInventory().setItem(p.getInventory().firstEmpty(), new ItemStack(Material.LEGACY_STAINED_GLASS_PANE, 1, (byte) ((new Random()).nextInt(13) + 1)));
             }
-        }).runTaskTimer((Plugin)Core.instance, 1L, 5L);
+        }).runTaskTimer(Core.instance, 1L, 5L);
     }
 
     public void Rave2(final Player p) {
         p.getInventory().setArmorContents(null);
         (new BukkitRunnable() {
-            int i = 0;
+            final int i = 0;
 
             public void run() {
                 Color color = nextRGB();
 
-                p.getInventory().setHelmet(new ItemStack(Material.LEGACY_STAINED_GLASS, 1, (short)(byte)((new Random()).nextInt(13) + 1)));
+                p.getInventory().setHelmet(new ItemStack(Material.LEGACY_STAINED_GLASS, 1, (byte) ((new Random()).nextInt(13) + 1)));
                 p.getInventory().setChestplate(getItemStack(Material.LEATHER_CHESTPLATE, color));
                 p.getInventory().setLeggings(getItemStack(Material.LEATHER_LEGGINGS, color));
                 p.getInventory().setBoots(getItemStack(Material.LEATHER_BOOTS, color));
-                p.getInventory().setItemInOffHand(new ItemStack(Material.LEGACY_STAINED_GLASS_PANE, 1, (short)(byte)((new Random()).nextInt(13) + 1)));
+                p.getInventory().setItemInOffHand(new ItemStack(Material.LEGACY_STAINED_GLASS_PANE, 1, (byte) ((new Random()).nextInt(13) + 1)));
             }
-        }).runTaskTimer((Plugin)Core.instance, 1L, 1L);
+        }).runTaskTimer(Core.instance, 1L, 1L);
     }
+
     public ItemStack getItemStack(Material material, Color color) {
         ItemStack itemStack = new ItemStack(material, 1, (byte) 0);
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -134,6 +134,7 @@ public class InventoryRave implements Listener {
     public ItemStack getItemStack(Material material) {
         return getItemStack(material, Color.fromRGB(r, g, b));
     }
+
     private Color nextRGB() {
         int increment = 15;
         int max = 255 / increment;

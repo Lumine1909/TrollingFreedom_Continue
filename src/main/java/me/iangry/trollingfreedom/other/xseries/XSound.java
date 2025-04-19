@@ -1108,7 +1108,8 @@ public enum XSound {
         for (int i = 0; i < len; i++) {
             char ch = name.charAt(i);
 
-            if (!appendUnderline && count != 0 && (ch == '-' || ch == ' ' || ch == '_') && chs[count] != '_') appendUnderline = true;
+            if (!appendUnderline && count != 0 && (ch == '-' || ch == ' ' || ch == '_') && chs[count] != '_')
+                appendUnderline = true;
             else {
                 boolean number = false;
                 // A few sounds have numbers in them.
@@ -1275,11 +1276,11 @@ public enum XSound {
         return CompletableFuture.runAsync(() -> {
             // We don't need to cache because it's rarely used.
             XSound[] musics = {MUSIC_CREATIVE, MUSIC_CREDITS,
-                    MUSIC_DISC_11, MUSIC_DISC_13, MUSIC_DISC_BLOCKS, MUSIC_DISC_CAT, MUSIC_DISC_CHIRP,
-                    MUSIC_DISC_FAR, MUSIC_DISC_MALL, MUSIC_DISC_MELLOHI, MUSIC_DISC_STAL,
-                    MUSIC_DISC_STRAD, MUSIC_DISC_WAIT, MUSIC_DISC_WARD,
-                    MUSIC_DRAGON, MUSIC_END, MUSIC_GAME, MUSIC_MENU, MUSIC_NETHER_BASALT_DELTAS, MUSIC_UNDER_WATER,
-                    MUSIC_NETHER_CRIMSON_FOREST, MUSIC_NETHER_WARPED_FOREST};
+                MUSIC_DISC_11, MUSIC_DISC_13, MUSIC_DISC_BLOCKS, MUSIC_DISC_CAT, MUSIC_DISC_CHIRP,
+                MUSIC_DISC_FAR, MUSIC_DISC_MALL, MUSIC_DISC_MELLOHI, MUSIC_DISC_STAL,
+                MUSIC_DISC_STRAD, MUSIC_DISC_WAIT, MUSIC_DISC_WARD,
+                MUSIC_DRAGON, MUSIC_END, MUSIC_GAME, MUSIC_MENU, MUSIC_NETHER_BASALT_DELTAS, MUSIC_UNDER_WATER,
+                MUSIC_NETHER_CRIMSON_FOREST, MUSIC_NETHER_WARPED_FOREST};
 
             for (XSound music : musics) {
                 Sound sound = music.parseSound();
@@ -1463,6 +1464,7 @@ public enum XSound {
      * @since 5.0.0
      */
     private static final class Data {
+
         /**
          * Just for enum initialization.
          *
@@ -1487,6 +1489,7 @@ public enum XSound {
      * @since 3.0.0
      */
     public static class Record {
+
         public final Sound sound;
         public final Player player;
         public final Location location;

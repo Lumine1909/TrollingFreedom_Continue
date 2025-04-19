@@ -5,15 +5,13 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.ArrayList;
 
 public class BedNight implements Listener {
+
     public static ArrayList<String> Bed1 = new ArrayList();
 
     public void BedNight(Player player) {

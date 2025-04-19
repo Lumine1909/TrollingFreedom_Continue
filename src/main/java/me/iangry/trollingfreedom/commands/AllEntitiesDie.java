@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 public class AllEntitiesDie implements Listener {
 
 
-
     public static void EntityDie(Player p) {
         String p2 = p.getName();
         for (Entity entity : p.getNearbyEntities(10, 10, 10)) {

@@ -25,12 +25,11 @@ import java.util.Arrays;
 public class Core extends JavaPlugin implements Listener {
 
 
-    public FileConfiguration config = getConfig();
-    static Boolean usingUUID = false;
     public static String version;
-    private File file = null;
-
     public static Core instance;
+    static Boolean usingUUID = false;
+    public FileConfiguration config = getConfig();
+    private final File file = null;
 
     public Core() {
 
@@ -45,16 +44,39 @@ public class Core extends JavaPlugin implements Listener {
         return i;
     }
 
+    public static Boolean uid() {
+        return usingUUID;
+    }
+
+    public static String getPathCC(String path) {
+        String c = Core.instance.getConfig().getString(path);
+        assert c != null;
+        c = ChatColor.translateAlternateColorCodes('&', c);
+        return c;
+    }
+
+    public static Boolean advCheck(String perm, Player p) {
+        if (instance.getConfig().getBoolean("values.advanced-perms.enabled")) {
+            if (usingUUID) {
+                OfflinePlayer pp = Bukkit.getPlayerExact(instance.getConfig().getString("values.advanced-perms.playername"));
+                if (pp.isOnline() && pp.hasPlayedBefore()) {
+                    return p.getUniqueId().equals(pp.getUniqueId());
+                }
+            } else {
+                return p.getName().equals(instance.getConfig().getString("values.advanced-perms.playername"));
+            }
+        } else {
+            return p.hasPermission(perm);
+        }
+        return false;
+    }
+
     @Override
     public void reloadConfig() {
         super.reloadConfig();
         saveDefaultConfig();
         config = getConfig();
         config.options().copyDefaults(true);
-    }
-
-    public static Boolean uid() {
-        return usingUUID;
     }
 
     public String getServerVersion() {
@@ -72,18 +94,17 @@ public class Core extends JavaPlugin implements Listener {
         return skull;
     }
 
-
     @Override
     public void onEnable() {
 
-        if (getConfig().getBoolean("values.dependency-downloader") == true) {
+        if (getConfig().getBoolean("values.dependency-downloader")) {
             try {
                 DependencyChecker chk = new DependencyChecker();
-                chk.DependencyChecker();
+                DependencyChecker.DependencyChecker();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (getConfig().getBoolean("values.dependency-downloader") == false) {
+            if (!getConfig().getBoolean("values.dependency-downloader")) {
                 return;
             }
         }
@@ -98,7 +119,6 @@ public class Core extends JavaPlugin implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(new EventListener(), this);
         getCommand("trollp").setExecutor(new TrollWithCMD());
         getCommand("trollp").setTabCompleter(new TrollWithCMD());
-
 
 
         getCommand("trollgui").setExecutor(new TrollGUIAlias());
@@ -217,29 +237,6 @@ public class Core extends JavaPlugin implements Listener {
         return tcc(this.config.getString("prefix") + this.config.get(configPath));
     }
 
-    public static String getPathCC(String path) {
-        String c = Core.instance.getConfig().getString(path);
-        assert c != null;
-        c = ChatColor.translateAlternateColorCodes('&', c);
-        return c;
-    }
-
-    public static Boolean advCheck(String perm, Player p) {
-        if (instance.getConfig().getBoolean("values.advanced-perms.enabled")) {
-            if (usingUUID) {
-                OfflinePlayer pp = Bukkit.getPlayerExact(instance.getConfig().getString("values.advanced-perms.playername"));
-                if (pp.isOnline() && pp.hasPlayedBefore()) {
-                    return p.getUniqueId().equals(pp.getUniqueId());
-                }
-            } else {
-                return p.getName().equals(instance.getConfig().getString("values.advanced-perms.playername"));
-            }
-        } else {
-            return p.hasPermission(perm);
-        }
-        return false;
-    }
-
     @Override
     public void onDisable() {
 
@@ -247,4 +244,4 @@ public class Core extends JavaPlugin implements Listener {
         this.getServer().getLogger().info("§c§lDisabled");
 
     }
-    }
+}

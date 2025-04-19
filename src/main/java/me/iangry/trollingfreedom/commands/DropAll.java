@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 public class DropAll implements Listener {
 
 
-
     public static void DropAll(Player p) {
         for (ItemStack i : p.getInventory().getContents()) {
             if (i != null) {
@@ -16,6 +15,7 @@ public class DropAll implements Listener {
             }
         }
     }
+
     public static void UnDropAll(Player p) {
         String p2 = p.getName();
         p.setInvisible(false);

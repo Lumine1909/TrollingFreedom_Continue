@@ -5,15 +5,19 @@ import me.iangry.trollingfreedom.main.Core;
 import me.iangry.trollingfreedom.other.ConfirmIH;
 import me.iangry.trollingfreedom.other.xseries.XEnchantment;
 import me.iangry.trollingfreedom.other.xseries.XMaterial;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.*;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.util.Consumer;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -21,25 +25,17 @@ import java.util.HashMap;
 import java.util.function.BiConsumer;
 
 public class TrollInventory2 implements Listener, InventoryHolder {
-    HashMap<String, String> launchedPlayers = new HashMap<String, String>();
-    HashMap<String, String> clearedFPlayers = new HashMap<String, String>();
+
+    static TrollInventory2 main;
     //HashMaps for Toggabels
     private final Inventory inv;
-    static TrollInventory2 main;
+    HashMap<String, String> launchedPlayers = new HashMap<String, String>();
+    HashMap<String, String> clearedFPlayers = new HashMap<String, String>();
     Player VictimPlayer;
-    public String getNOU(Player p){
-        return Core.uid()?p.getName():p.getUniqueId().toString();
-    }
-    public String centerTitle(String title) {
-        StringBuilder result = new StringBuilder();
-        int spaces = (27 - ChatColor.stripColor(title).length());
+    ItemStack unTroll = createGuiItem(XMaterial.BARRIER, true, Core.getPathCC("items.Untroll-name"), Core.getPathCC("items.Untroll-lore"));
+    ItemStack secondPage = createGuiItem(XMaterial.ARROW, true, Core.getPathCC("items.nextpage-name"), Core.getPathCC("items.nextpage-lore"));
+    ItemStack backPage = createGuiItem(XMaterial.ARROW, true, Core.getPathCC("items.backpage-name"), Core.getPathCC("items.backpage-lore"));
 
-        for (int i = 0; i < spaces; i++) {
-            result.append(" ");
-        }
-
-        return result.append(title).toString();
-    }
     public TrollInventory2(Player vic) {
 
         VictimPlayer = vic;
@@ -51,10 +47,12 @@ public class TrollInventory2 implements Listener, InventoryHolder {
         initializeItems();
 
     }
+
     //To use method beyond this codeA
     public static TrollInventory2 getGUI() {
         return main;
     }
+
     public static HashMap getMaps(String maps) {
         switch (maps) {
             case "LP":
@@ -65,49 +63,59 @@ public class TrollInventory2 implements Listener, InventoryHolder {
         // FrZLayers... creative.
         return null;
     }
+
+    // You can call this whenever you want to put the items in
+
+    //  ItemStack mainPage = createGuiItem(XMaterial.REDSTONE_BLOCK, true, Core.getPathCC("items.Playerselector-name"), Core.getPathCC("items.Playerselector-lore"));
+
+    public String getNOU(Player p) {
+        return Core.uid() ? p.getName() : p.getUniqueId().toString();
+    }
+
+    public String centerTitle(String title) {
+        StringBuilder result = new StringBuilder();
+        int spaces = (27 - ChatColor.stripColor(title).length());
+
+        for (int i = 0; i < spaces; i++) {
+            result.append(" ");
+        }
+
+        return result.append(title).toString();
+    }
+
     @Override
     public Inventory getInventory() {
         return inv;
     }
-
-    // You can call this whenever you want to put the items in
-
-  //  ItemStack mainPage = createGuiItem(XMaterial.REDSTONE_BLOCK, true, Core.getPathCC("items.Playerselector-name"), Core.getPathCC("items.Playerselector-lore"));
-
-    ItemStack unTroll = createGuiItem(XMaterial.BARRIER, true, Core.getPathCC("items.Untroll-name"), Core.getPathCC("items.Untroll-lore"));
-
-    ItemStack secondPage = createGuiItem(XMaterial.ARROW, true, Core.getPathCC("items.nextpage-name"), Core.getPathCC("items.nextpage-lore"));
-
-    ItemStack backPage = createGuiItem(XMaterial.ARROW, true, Core.getPathCC("items.backpage-name"), Core.getPathCC("items.backpage-lore"));
 
     public void initializeItems() {
         ItemStack plc = new ItemStack(XMaterial.CYAN_STAINED_GLASS_PANE.parseMaterial(), 1);
         ItemMeta meta = plc.getItemMeta();
         meta.setDisplayName(" ");
         plc.setItemMeta(meta);
-        for(Integer i = 0; i < 45; i++){
+        for (Integer i = 0; i < 45; i++) {
             inv.setItem(i, plc);
         }
 
-        inv.setItem(10,createGuiItem(XMaterial.CHICKEN, false, Core.tcc(Core.instance.getConfig().getString("items.explodingchicken-name")), Core.tcc(Core.instance.getConfig().getString("items.explodingchicken-lore"))));
-        inv.setItem(11,createGuiItem(XMaterial.MUTTON, false, Core.tcc(Core.instance.getConfig().getString("items.explosivesheep-name")), Core.tcc(Core.instance.getConfig().getString("items.explosivesheep-lore"))));
-        inv.setItem(12,createGuiItem(XMaterial.TNT_MINECART, false, Core.tcc(Core.instance.getConfig().getString("items.fakecrash-name")), Core.tcc(Core.instance.getConfig().getString("items.fakecrash-lore"))));
-        inv.setItem(13,createGuiItem(XMaterial.DEBUG_STICK, false, Core.tcc(Core.instance.getConfig().getString("items.fakereload-name")), Core.tcc(Core.instance.getConfig().getString("items.fakereload-lore"))));
-        inv.setItem(14,createGuiItem(XMaterial.LINGERING_POTION, false, Core.tcc(Core.instance.getConfig().getString("items.forcejump-name")), Core.tcc(Core.instance.getConfig().getString("items.forcejump-lore"))));
-        inv.setItem(15,createGuiItem(XMaterial.SOUL_SAND, false, Core.tcc(Core.instance.getConfig().getString("items.freeze-name")), Core.tcc(Core.instance.getConfig().getString("items.freeze-lore"))));
-        inv.setItem(16,createGuiItem(XMaterial.PLAYER_HEAD, false, Core.tcc(Core.instance.getConfig().getString("items.herobrine-name")), Core.tcc(Core.instance.getConfig().getString("items.herobrine-lore"))));
-        inv.setItem(19,createGuiItem(XMaterial.PLAYER_HEAD, false, Core.tcc(Core.instance.getConfig().getString("items.hideallplayers-name")), Core.tcc(Core.instance.getConfig().getString("items.hideallplayers-lore"))));
-        inv.setItem(20,createGuiItem(XMaterial.GOLDEN_PICKAXE, false, Core.tcc(Core.instance.getConfig().getString("items.instatoolbreak-name")), Core.tcc(Core.instance.getConfig().getString("items.instatoolbreak-lore"))));
-        inv.setItem(21,createGuiItem(XMaterial.CHEST, false, Core.tcc(Core.instance.getConfig().getString("items.inventorystop-name")), Core.tcc(Core.instance.getConfig().getString("items.inventorystop-lore"))));
-        inv.setItem(22,createGuiItem(XMaterial.CHEST, false, Core.tcc(Core.instance.getConfig().getString("items.invsee-name")), Core.tcc(Core.instance.getConfig().getString("items.invsee-lore"))));
-        inv.setItem(23,createGuiItem(XMaterial.CAT_SPAWN_EGG, false, Core.tcc(Core.instance.getConfig().getString("items.kittycannon-name")), Core.tcc(Core.instance.getConfig().getString("items.kittycannon-lore"))));
-        inv.setItem(24,createGuiItem(XMaterial.COBWEB,false,  Core.tcc(Core.instance.getConfig().getString("items.lag-name")), Core.tcc(Core.instance.getConfig().getString("items.lag-lore"))));
-        inv.setItem(25,createGuiItem(XMaterial.WATER_BUCKET,false,  Core.tcc(Core.instance.getConfig().getString("items.launch-name")), Core.tcc(Core.instance.getConfig().getString("items.launch-lore"))));
-        inv.setItem(29,createGuiItem(XMaterial.FLINT_AND_STEEL,false,  Core.tcc(Core.instance.getConfig().getString("items.lightning-name")), Core.tcc(Core.instance.getConfig().getString("items.lightning-lore"))));
-        inv.setItem(30,createGuiItem(XMaterial.CHEST,false,  Core.tcc(Core.instance.getConfig().getString("items.lockinventory-name")), Core.tcc(Core.instance.getConfig().getString("items.lockinventory-lore"))));
-        inv.setItem(31,createGuiItem(XMaterial.NAME_TAG,false,  Core.tcc(Core.instance.getConfig().getString("items.nick-name")), Core.tcc(Core.instance.getConfig().getString("items.nick-lore"))));
-        inv.setItem(32,createGuiItem(XMaterial.DIAMOND_BLOCK,false,  Core.tcc(Core.instance.getConfig().getString("items.op-name")), Core.tcc(Core.instance.getConfig().getString("items.op-lore"))));
-        inv.setItem(33,createGuiItem(XMaterial.COAL_BLOCK,false,  Core.tcc(Core.instance.getConfig().getString("items.unop-name")), Core.tcc(Core.instance.getConfig().getString("items.unop-lore"))));
+        inv.setItem(10, createGuiItem(XMaterial.CHICKEN, false, Core.tcc(Core.instance.getConfig().getString("items.explodingchicken-name")), Core.tcc(Core.instance.getConfig().getString("items.explodingchicken-lore"))));
+        inv.setItem(11, createGuiItem(XMaterial.MUTTON, false, Core.tcc(Core.instance.getConfig().getString("items.explosivesheep-name")), Core.tcc(Core.instance.getConfig().getString("items.explosivesheep-lore"))));
+        inv.setItem(12, createGuiItem(XMaterial.TNT_MINECART, false, Core.tcc(Core.instance.getConfig().getString("items.fakecrash-name")), Core.tcc(Core.instance.getConfig().getString("items.fakecrash-lore"))));
+        inv.setItem(13, createGuiItem(XMaterial.DEBUG_STICK, false, Core.tcc(Core.instance.getConfig().getString("items.fakereload-name")), Core.tcc(Core.instance.getConfig().getString("items.fakereload-lore"))));
+        inv.setItem(14, createGuiItem(XMaterial.LINGERING_POTION, false, Core.tcc(Core.instance.getConfig().getString("items.forcejump-name")), Core.tcc(Core.instance.getConfig().getString("items.forcejump-lore"))));
+        inv.setItem(15, createGuiItem(XMaterial.SOUL_SAND, false, Core.tcc(Core.instance.getConfig().getString("items.freeze-name")), Core.tcc(Core.instance.getConfig().getString("items.freeze-lore"))));
+        inv.setItem(16, createGuiItem(XMaterial.PLAYER_HEAD, false, Core.tcc(Core.instance.getConfig().getString("items.herobrine-name")), Core.tcc(Core.instance.getConfig().getString("items.herobrine-lore"))));
+        inv.setItem(19, createGuiItem(XMaterial.PLAYER_HEAD, false, Core.tcc(Core.instance.getConfig().getString("items.hideallplayers-name")), Core.tcc(Core.instance.getConfig().getString("items.hideallplayers-lore"))));
+        inv.setItem(20, createGuiItem(XMaterial.GOLDEN_PICKAXE, false, Core.tcc(Core.instance.getConfig().getString("items.instatoolbreak-name")), Core.tcc(Core.instance.getConfig().getString("items.instatoolbreak-lore"))));
+        inv.setItem(21, createGuiItem(XMaterial.CHEST, false, Core.tcc(Core.instance.getConfig().getString("items.inventorystop-name")), Core.tcc(Core.instance.getConfig().getString("items.inventorystop-lore"))));
+        inv.setItem(22, createGuiItem(XMaterial.CHEST, false, Core.tcc(Core.instance.getConfig().getString("items.invsee-name")), Core.tcc(Core.instance.getConfig().getString("items.invsee-lore"))));
+        inv.setItem(23, createGuiItem(XMaterial.CAT_SPAWN_EGG, false, Core.tcc(Core.instance.getConfig().getString("items.kittycannon-name")), Core.tcc(Core.instance.getConfig().getString("items.kittycannon-lore"))));
+        inv.setItem(24, createGuiItem(XMaterial.COBWEB, false, Core.tcc(Core.instance.getConfig().getString("items.lag-name")), Core.tcc(Core.instance.getConfig().getString("items.lag-lore"))));
+        inv.setItem(25, createGuiItem(XMaterial.WATER_BUCKET, false, Core.tcc(Core.instance.getConfig().getString("items.launch-name")), Core.tcc(Core.instance.getConfig().getString("items.launch-lore"))));
+        inv.setItem(29, createGuiItem(XMaterial.FLINT_AND_STEEL, false, Core.tcc(Core.instance.getConfig().getString("items.lightning-name")), Core.tcc(Core.instance.getConfig().getString("items.lightning-lore"))));
+        inv.setItem(30, createGuiItem(XMaterial.CHEST, false, Core.tcc(Core.instance.getConfig().getString("items.lockinventory-name")), Core.tcc(Core.instance.getConfig().getString("items.lockinventory-lore"))));
+        inv.setItem(31, createGuiItem(XMaterial.NAME_TAG, false, Core.tcc(Core.instance.getConfig().getString("items.nick-name")), Core.tcc(Core.instance.getConfig().getString("items.nick-lore"))));
+        inv.setItem(32, createGuiItem(XMaterial.DIAMOND_BLOCK, false, Core.tcc(Core.instance.getConfig().getString("items.op-name")), Core.tcc(Core.instance.getConfig().getString("items.op-lore"))));
+        inv.setItem(33, createGuiItem(XMaterial.COAL_BLOCK, false, Core.tcc(Core.instance.getConfig().getString("items.unop-name")), Core.tcc(Core.instance.getConfig().getString("items.unop-lore"))));
 
         //inv.setItem(36, mainPage);
 
@@ -118,13 +126,13 @@ public class TrollInventory2 implements Listener, InventoryHolder {
         inv.setItem(44, secondPage);
     }
 
-    protected ItemStack createGuiItem(final XMaterial XMaterial, final Boolean isEnchanted , final String name, final String... lore) {
+    protected ItemStack createGuiItem(final XMaterial XMaterial, final Boolean isEnchanted, final String name, final String... lore) {
         final ItemStack item = new ItemStack(XMaterial.parseMaterial(), 1);
         final ItemMeta meta = item.getItemMeta();
 
         // Set the name of the item
         meta.setDisplayName(name);
-        if(isEnchanted){
+        if (isEnchanted) {
             meta.addEnchant(XEnchantment.DURABILITY.parseEnchantment(), 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
@@ -153,20 +161,20 @@ public class TrollInventory2 implements Listener, InventoryHolder {
         if (clickedItem == null || clickedItem.getType() == XMaterial.AIR.parseMaterial()) return;
 
         final Player p = (Player) e.getWhoClicked();
-        if(VictimPlayer != null){
-            if(e.getSlot() < 45){
-                switch(e.getRawSlot()){
+        if (VictimPlayer != null) {
+            if (e.getSlot() < 45) {
+                switch (e.getRawSlot()) {
                     case 10:
                         ExplodingChicken troll = new ExplodingChicken();
-                        troll.Chicken(VictimPlayer);
+                        ExplodingChicken.Chicken(VictimPlayer);
                         break;
                     case 11:
-                        ExplosiveSheep troll2 = new ExplosiveSheep ();
+                        ExplosiveSheep troll2 = new ExplosiveSheep();
                         troll2.Sheep(VictimPlayer);
                         break;
                     case 12:
                         FakeCrash troll3 = new FakeCrash();
-                        troll3.FakeCrash(VictimPlayer);
+                        FakeCrash.FakeCrash(VictimPlayer);
                         break;
                     case 13:
                         FakeReload troll4 = new FakeReload();
@@ -181,11 +189,10 @@ public class TrollInventory2 implements Listener, InventoryHolder {
                         troll6.Freeze(VictimPlayer);
                         break;
                     case 16:
-                        if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") != null) {
+                        if (Bukkit.getServer().getPluginManager().getPlugin("Citizens") != null) {
                             Herobrine troll7 = new Herobrine();
-                            troll7.Herobrine(VictimPlayer);
-                        }
-                        else {
+                            Herobrine.Herobrine(VictimPlayer);
+                        } else {
                             p.sendMessage("§3TF§8: §7Please install Citizens for this troll to work");
                             p.sendMessage("§3TF§8: §7§nhttps://ci.citizensnpcs.co/job/citizens2/");
                         }
@@ -215,17 +222,9 @@ public class TrollInventory2 implements Listener, InventoryHolder {
                                 }
 
                             }
-                        }, new Consumer<Player>() {
-
-                            @Override
-                            public void accept(Player arg0) {
-                                //code to execute for back buttok
-
-                                // p.sendMessage("back");
-                                TrollInventory4 sp2 = new TrollInventory4(VictimPlayer.getPlayer());
-                                sp2.openInventory(p);
-
-                            }
+                        }, player -> {
+                            TrollInventory4 sp2 = new TrollInventory4(VictimPlayer.getPlayer());
+                            sp2.openInventory(p);
                         }, "§b§lTF §8| §7Confirm §3§lHide All", Core.instance);
                         break;
                     case 20:
@@ -238,7 +237,7 @@ public class TrollInventory2 implements Listener, InventoryHolder {
                         break;
                     case 22:
                         Invsee troll11 = new Invsee();
-                        troll11.Invsee(VictimPlayer);
+                        Invsee.Invsee(VictimPlayer);
                         break;
                     case 23:
                         KittyCannon troll12 = new KittyCannon();
@@ -246,11 +245,11 @@ public class TrollInventory2 implements Listener, InventoryHolder {
                         break;
                     case 24:
                         Lag troll13 = new Lag();
-                        troll13.Lagg(VictimPlayer);
+                        Lag.Lagg(VictimPlayer);
                         break;
                     case 25:
                         Launch troll14 = new Launch();
-                        troll14.Launch(VictimPlayer);
+                        Launch.Launch(VictimPlayer);
                         break;
                     case 29:
                         Lightning troll15 = new Lightning();
@@ -258,14 +257,13 @@ public class TrollInventory2 implements Listener, InventoryHolder {
                         break;
                     case 30:
                         LockInventory troll16 = new LockInventory();
-                        troll16.Lock(VictimPlayer);
+                        LockInventory.Lock(VictimPlayer);
                         break;
                     case 31:
-                        if(Bukkit.getServer().getPluginManager().getPlugin("Essentials") != null) {
+                        if (Bukkit.getServer().getPluginManager().getPlugin("Essentials") != null) {
                             NickWithoutEss troll17 = new NickWithoutEss();
                             troll17.NickName(VictimPlayer);
-                        }
-                        else {
+                        } else {
                             p.sendMessage("§3TF§8: §7Please install Essentials for this troll to work");
                             p.sendMessage("§3TF§8: §7§nhttps://www.spigotmc.org/resources/essentialsx.9089/");
                         }
@@ -273,15 +271,15 @@ public class TrollInventory2 implements Listener, InventoryHolder {
                         break;
                     case 32:
                         OP troll18 = new OP();
-                        troll18.FakeOP(VictimPlayer);
+                        OP.FakeOP(VictimPlayer);
                         break;
                     case 33:
                         OP troll19 = new OP();
-                        troll19.FakeDeOP(VictimPlayer);
+                        OP.FakeDeOP(VictimPlayer);
                         break;
                     case 36:
-                                TrollInventory sp1= new TrollInventory(VictimPlayer.getPlayer());
-                                sp1.openInventory(p);
+                        TrollInventory sp1 = new TrollInventory(VictimPlayer.getPlayer());
+                        sp1.openInventory(p);
                         break;
                     case 40:
                         UnTroll stoptroll = new UnTroll();
@@ -300,4 +298,3 @@ public class TrollInventory2 implements Listener, InventoryHolder {
         }
     }
 }
-

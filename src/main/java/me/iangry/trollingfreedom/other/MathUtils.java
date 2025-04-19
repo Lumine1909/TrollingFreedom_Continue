@@ -1,6 +1,5 @@
 package me.iangry.trollingfreedom.other;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -23,47 +22,38 @@ public class MathUtils implements Listener {
     static public final float SQRT_3 = 1.73205080757f;
 
     static public final float E = 2.7182818284590452354f;
-
-    static private final int SIN_BITS = 14; // 16KB. Adjust for accuracy.
-
-    static private final int SIN_MASK = ~(-1 << SIN_BITS);
-
-    static private final int SIN_COUNT = SIN_MASK + 1;
-
-    static private final float radFull = PI * 2;
-
-    static private final float degFull = 360;
-
-    static private final float radToIndex = SIN_COUNT / radFull;
-
-    static private final float degToIndex = SIN_COUNT / degFull;
-
     /**
      * multiply by this to convert from radians to degrees
      */
     static public final float radiansToDegrees = 180f / PI;
-
     static public final float radDeg = radiansToDegrees;
     /**
      * multiply by this to convert from degrees to radians
      */
     static public final float degreesToRadians = PI / 180;
-
     static public final float degRad = degreesToRadians;
-
-    static private class Sin {
-
-        static final float[] table = new float[SIN_COUNT];
-
-        static {
-            for (int i = 0; i < SIN_COUNT; i++) {
-                table[i] = (float) Math.sin((i + 0.5f) / SIN_COUNT * radFull);
-            }
-            for (int i = 0; i < 360; i += 90) {
-                table[(int) (i * degToIndex) & SIN_MASK] = (float) Math.sin(i * degreesToRadians);
-            }
-        }
-    }
+    static private final int SIN_BITS = 14; // 16KB. Adjust for accuracy.
+    static private final int SIN_MASK = ~(-1 << SIN_BITS);
+    static private final int SIN_COUNT = SIN_MASK + 1;
+    static private final float degToIndex = SIN_COUNT / degFull;
+    static private final float radFull = PI * 2;
+    static private final float radToIndex = SIN_COUNT / radFull;
+    static private final float degFull = 360;
+    static private final int ATAN2_BITS = 7; // Adjust for accuracy.
+    static private final int ATAN2_BITS2 = ATAN2_BITS << 1;
+    static private final int ATAN2_MASK = ~(-1 << ATAN2_BITS2);
+    static private final int ATAN2_COUNT = ATAN2_MASK + 1;
+    static final int ATAN2_DIM = (int) Math.sqrt(ATAN2_COUNT);
+    static private final float INV_ATAN2_DIM_MINUS_1 = 1.0f / (ATAN2_DIM - 1);
+    // ---
+    static private final int BIG_ENOUGH_INT = 16 * 1024;
+    static private final double BIG_ENOUGH_FLOOR = BIG_ENOUGH_INT;
+    static private final double CEIL = 0.9999999;
+    // static private final double BIG_ENOUGH_CEIL = NumberUtils
+// .longBitsToDouble(NumberUtils.doubleToLongBits(BIG_ENOUGH_INT + 1) - 1);
+    static private final double BIG_ENOUGH_CEIL = 16384.999999999996;
+    static private final double BIG_ENOUGH_ROUND = BIG_ENOUGH_INT + 0.5f;
+    static public Random random = new Random();
 
     /**
      * Returns the sine in radians from a lookup table.
@@ -91,33 +81,6 @@ public class MathUtils implements Listener {
      */
     static public final float cosDeg(float degrees) {
         return Sin.table[(int) ((degrees + 90) * degToIndex) & SIN_MASK];
-    }
-
-    static private final int ATAN2_BITS = 7; // Adjust for accuracy.
-
-    static private final int ATAN2_BITS2 = ATAN2_BITS << 1;
-
-    static private final int ATAN2_MASK = ~(-1 << ATAN2_BITS2);
-
-    static private final int ATAN2_COUNT = ATAN2_MASK + 1;
-
-    static final int ATAN2_DIM = (int) Math.sqrt(ATAN2_COUNT);
-
-    static private final float INV_ATAN2_DIM_MINUS_1 = 1.0f / (ATAN2_DIM - 1);
-
-    static private class Atan2 {
-
-        static final float[] table = new float[ATAN2_COUNT];
-
-        static {
-            for (int i = 0; i < ATAN2_DIM; i++) {
-                for (int j = 0; j < ATAN2_DIM; j++) {
-                    float x0 = (float) i / ATAN2_DIM;
-                    float y0 = (float) j / ATAN2_DIM;
-                    table[j * ATAN2_DIM + i] = (float) Math.atan2(y0, x0);
-                }
-            }
-        }
     }
 
     public static boolean isInteger(Object object) {
@@ -172,8 +135,6 @@ public class MathUtils implements Listener {
         return (Atan2.table[yi * ATAN2_DIM + xi] + add) * mul;
     }
 
-    static public Random random = new Random();
-
     /**
      * Returns a random number between 0 (inclusive) and the specified value (inclusive).
      */
@@ -202,6 +163,8 @@ public class MathUtils implements Listener {
         return MathUtils.random() < chance;
     }
 
+    // ---
+
     /**
      * Returns random number between 0.0 (inclusive) and 1.0 (exclusive).
      */
@@ -222,8 +185,6 @@ public class MathUtils implements Listener {
     static public final float random(float start, float end) {
         return start + random.nextFloat() * (end - start);
     }
-
-    // ---
 
     /**
      * Returns the next power of two. Returns the specified value if the value is already a power of two.
@@ -275,15 +236,6 @@ public class MathUtils implements Listener {
         }
         return value;
     }
-
-    // ---
-    static private final int BIG_ENOUGH_INT = 16 * 1024;
-    static private final double BIG_ENOUGH_FLOOR = BIG_ENOUGH_INT;
-    static private final double CEIL = 0.9999999;
-    // static private final double BIG_ENOUGH_CEIL = NumberUtils
-// .longBitsToDouble(NumberUtils.doubleToLongBits(BIG_ENOUGH_INT + 1) - 1);
-    static private final double BIG_ENOUGH_CEIL = 16384.999999999996;
-    static private final double BIG_ENOUGH_ROUND = BIG_ENOUGH_INT + 0.5f;
 
     /**
      * Returns the largest integer less than or equal to the specified float. This method will only properly floor floats from
@@ -455,7 +407,6 @@ public class MathUtils implements Listener {
         return Math.random() < 0.5 ? ((1 - Math.random()) * (max - min) + min) : (Math.random() * (max - min) + min);
     }
 
-
     public static float randomRangeFloat(float min, float max) {
         return (float) (Math.random() < 0.5 ? ((1 - Math.random()) * (max - min) + min) : (Math.random() * (max - min) + min));
     }
@@ -490,6 +441,35 @@ public class MathUtils implements Listener {
 
     public static double offset(Vector a, Vector b) {
         return a.subtract(b).length();
+    }
+
+    static private class Sin {
+
+        static final float[] table = new float[SIN_COUNT];
+
+        static {
+            for (int i = 0; i < SIN_COUNT; i++) {
+                table[i] = (float) Math.sin((i + 0.5f) / SIN_COUNT * radFull);
+            }
+            for (int i = 0; i < 360; i += 90) {
+                table[(int) (i * degToIndex) & SIN_MASK] = (float) Math.sin(i * degreesToRadians);
+            }
+        }
+    }
+
+    static private class Atan2 {
+
+        static final float[] table = new float[ATAN2_COUNT];
+
+        static {
+            for (int i = 0; i < ATAN2_DIM; i++) {
+                for (int j = 0; j < ATAN2_DIM; j++) {
+                    float x0 = (float) i / ATAN2_DIM;
+                    float y0 = (float) j / ATAN2_DIM;
+                    table[j * ATAN2_DIM + i] = (float) Math.atan2(y0, x0);
+                }
+            }
+        }
     }
 
 }

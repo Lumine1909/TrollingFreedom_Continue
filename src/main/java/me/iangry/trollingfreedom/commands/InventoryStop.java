@@ -22,20 +22,21 @@ public class InventoryStop implements CommandExecutor, Listener {
         }
         return false;
     }
+
     public void InventoryStop(Player p) {
         Player p2 = p.getPlayer();
-        this.InvStop1.add(p2.getName());
+        InvStop1.add(p2.getName());
     }
 
     public void UnInventoryStop(Player p) {
         Player p2 = p.getPlayer();
-        this.InvStop1.remove(p2.getName());
+        InvStop1.remove(p2.getName());
     }
 
     @EventHandler
     public void onInvOpen(InventoryOpenEvent e) {
         Player p = (Player) e.getPlayer();
-        if (this.InvStop1.contains(p.getName())) {
+        if (InvStop1.contains(p.getName())) {
             e.setCancelled(true);
         }
     }

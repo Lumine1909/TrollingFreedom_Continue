@@ -13,7 +13,7 @@ public class ExplodingChicken implements Listener {
 
 
     public static void Chicken(Player p) {
-        Entity enderman = p.getWorld().spawnEntity(p.getEyeLocation().add(3, -1,0), EntityType.CHICKEN);
+        Entity enderman = p.getWorld().spawnEntity(p.getEyeLocation().add(3, -1, 0), EntityType.CHICKEN);
         LivingEntity livingenderman = (LivingEntity) enderman;
         Creature creatureenderman = (Creature) livingenderman;
         creatureenderman.setInvulnerable(true);

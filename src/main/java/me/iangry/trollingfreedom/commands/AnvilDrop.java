@@ -12,7 +12,6 @@ import org.bukkit.plugin.Plugin;
 public class AnvilDrop implements Listener {
 
 
-
     public static void Anvil(final Player p) {
         String p2 = p.getName();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.instance, new Runnable() {
@@ -21,10 +20,10 @@ public class AnvilDrop implements Listener {
                 Block block1 = p.getWorld().getBlockAt(loc1.add(0.0D, 20.0D, 0.0D)); //MIDDLE
                 block1.setType(Material.DAMAGED_ANVIL);
             }
-        },  40L, 10L);
+        }, 40L, 10L);
     }
 
-    public static void UnAnvil (Plugin plugin){
+    public static void UnAnvil(Plugin plugin) {
         Bukkit.getScheduler().cancelTasks(Core.instance);
     }
 }

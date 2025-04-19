@@ -4,10 +4,10 @@ public enum Mode {
     APLHA, ALPHANUMERIC, NUMERIC, SYMBOLIC, ALPHASYMBOLIC, NUMERICSYMBOLIC, APLHANUMERICSYMBOLIC;
 
 
-    public static String getString(int length, Mode mode){
+    public static String getString(int length, Mode mode) {
         StringBuilder builder = new StringBuilder();
         String s = "";
-        switch(mode){
+        switch (mode) {
             case APLHA:
                 s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
             case ALPHANUMERIC:
@@ -23,9 +23,9 @@ public enum Mode {
             case APLHANUMERICSYMBOLIC:
                 s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~,.:?;[]{}´`^!@#$%¨&*()-_+=></ ";
         }
-        for(int i = 0; i<length; i++){
+        for (int i = 0; i < length; i++) {
             double index = Math.random() * s.length();
-            builder.append(s.charAt((int)index));
+            builder.append(s.charAt((int) index));
         }
         return builder.toString();
     }

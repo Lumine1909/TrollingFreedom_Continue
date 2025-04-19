@@ -15,7 +15,7 @@ public class UnTroll implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if (!(sender instanceof Player)){
+        if (!(sender instanceof Player)) {
             String message0 = (String) Core.instance.getConfig().get("cant-use-in-console");
             String replaced0 = message0.replace("&", "§");
             sender.sendMessage(replaced0);
@@ -71,7 +71,7 @@ public class UnTroll implements CommandExecutor {
 
     public void StopTrolls(Player t, Player sndr) throws IOException {
         //remove all trolls
-        Bukkit.getScheduler().cancelTasks((Plugin) Core.instance);
+        Bukkit.getScheduler().cancelTasks(Core.instance);
         if (Potato.Break1.contains(t.getPlayer().getName())) {
             Potato a = new Potato();
             a.unpotato(t);
@@ -182,7 +182,7 @@ public class UnTroll implements CommandExecutor {
         }
         if (Deafen.Deaf1.contains(t.getPlayer().getName())) {
             Deafen seventeen = new Deafen();
-            seventeen.UnDeafen(t);
+            Deafen.UnDeafen(t);
         }
         if (Nick.Nick1.contains(t.getPlayer().getName())) {
             NickWithoutEss eighteen = new NickWithoutEss();
@@ -194,7 +194,7 @@ public class UnTroll implements CommandExecutor {
         }
         if (ExplodeOnChat.Chat1.contains(t.getPlayer().getName())) {
             ExplodeOnChat twenty = new ExplodeOnChat();
-            twenty.UnChat(t);
+            ExplodeOnChat.UnChat(t);
         }
         if (InventoryRave.Rave1.contains(t.getPlayer().getName())) {
             InventoryRave twentyone = new InventoryRave();
@@ -202,7 +202,7 @@ public class UnTroll implements CommandExecutor {
         }
         if (InvertWalk.Invert1.contains(t.getPlayer().getName())) {
             InvertWalk twentytwo = new InvertWalk();
-            twentytwo.UnInvert(t);
+            InvertWalk.UnInvert(t);
         }
         if (BedNight.Bed1.contains(t.getPlayer().getName())) {
             BedNight twentythree = new BedNight();
@@ -223,6 +223,6 @@ public class UnTroll implements CommandExecutor {
         if (Control.controlled1.contains(t.getPlayer().getName())) {
             sndr.performCommand("control stop");
         }
-            //next troll here
-        }
+        //next troll here
     }
+}

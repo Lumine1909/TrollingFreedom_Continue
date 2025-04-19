@@ -3,14 +3,12 @@ package me.iangry.trollingfreedom.commands;
 import me.iangry.trollingfreedom.main.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Tag;
-import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -25,7 +23,7 @@ public class Vomit implements Listener {
     public void Vomit(final Player p) {
         String p2 = p.getName();
         Vomit1.add(p.getName());
-        Bukkit.getScheduler().scheduleSyncRepeatingTask((Plugin) Core.instance, new Runnable() {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.instance, new Runnable() {
             public void run() {
                 ItemStack item = new ItemStack(Material.WHITE_WOOL);
                 ItemStack item2 = new ItemStack(Material.LIGHT_GRAY_WOOL);
@@ -82,7 +80,7 @@ public class Vomit implements Listener {
     public void UnVomit(Player p) {
         if (Vomit1.contains(p.getName())) {
             String p2 = p.getName();
-            Bukkit.getScheduler().cancelTasks((Plugin) Core.instance);
+            Bukkit.getScheduler().cancelTasks(Core.instance);
             Vomit1.remove(p.getName());
             Player player = p;
             player.getNearbyEntities(10.0D, 10.0D, 10.0D).stream().filter(entstream -> entstream instanceof Item).map(Item.class::cast).filter(item -> (item.getItemStack().getType() == Material.WHITE_WOOL)).forEach(Entity::remove);
@@ -179,6 +177,7 @@ public class Vomit implements Listener {
             }
         }
     }
+
     @EventHandler
     public void InventoryItemPickup(InventoryPickupItemEvent e) {
         if (!Vomit1.isEmpty()) {

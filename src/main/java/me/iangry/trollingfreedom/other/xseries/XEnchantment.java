@@ -207,7 +207,8 @@ public enum XEnchantment {
         for (int i = 0; i < len; i++) {
             char ch = name.charAt(i);
 
-            if (!appendUnderline && count != 0 && (ch == '-' || ch == ' ' || ch == '_') && chs[count] != '_') appendUnderline = true;
+            if (!appendUnderline && count != 0 && (ch == '-' || ch == ' ' || ch == '_') && chs[count] != '_')
+                appendUnderline = true;
             else {
                 if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z')) {
                     if (appendUnderline) {
@@ -353,6 +354,7 @@ public enum XEnchantment {
      * @since 2.0.0
      */
     private static final class Data {
+
         private static final boolean ISFLAT;
         private static final Map<String, XEnchantment> NAMES = new HashMap<>();
 

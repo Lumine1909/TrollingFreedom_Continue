@@ -30,16 +30,16 @@ public class Aquaphobia implements Listener {
     public void onPlayerMove(PlayerMoveEvent e) {
         Material m = e.getPlayer().getLocation().getBlock().getType();
         Player p = e.getPlayer();
-        if (this.Aqua1.contains(p.getName())) {
+        if (Aqua1.contains(p.getName())) {
             if (m == Material.WATER) {
-                        // player is in water
-                        p.setGameMode(GameMode.SURVIVAL);
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 1, 5));
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1, 1));
-                        p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1, 2));
-                        p.getWorld().playEffect(p.getEyeLocation(), Effect.MOBSPAWNER_FLAMES, 2);
+                // player is in water
+                p.setGameMode(GameMode.SURVIVAL);
+                p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 1, 5));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1, 1));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 1, 2));
+                p.getWorld().playEffect(p.getEyeLocation(), Effect.MOBSPAWNER_FLAMES, 2);
 
-                    }
-                }
             }
         }
+    }
+}

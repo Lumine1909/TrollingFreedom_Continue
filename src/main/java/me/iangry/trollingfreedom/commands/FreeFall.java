@@ -5,7 +5,6 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.util.Vector;
 
 public class FreeFall implements Listener {
 

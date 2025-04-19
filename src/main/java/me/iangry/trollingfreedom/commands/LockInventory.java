@@ -15,9 +15,9 @@ public class LockInventory implements Listener {
                 p.closeInventory();
 
                 if (p.isSneaking()) {
-                    Bukkit.getScheduler().cancelTasks((Plugin)Core.instance);
+                    Bukkit.getScheduler().cancelTasks(Core.instance);
                 }
-                }
+            }
         }, 1L, 1L);
     }
 }

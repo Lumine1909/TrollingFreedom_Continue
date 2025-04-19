@@ -1,9 +1,6 @@
 package me.iangry.trollingfreedom.main;
 
-import me.iangry.trollingfreedom.main.Core;
 import me.iangry.trollingfreedom.ui.PlayerSelectorInventory;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,12 +24,11 @@ public class TrollGUIAlias implements CommandExecutor {
             PlayerSelectorInventory ps = new PlayerSelectorInventory();
             ps.openSel(p);
             return false;
-        }
-            else {
+        } else {
             Player p = (Player) sender;
             PlayerSelectorInventory ps = new PlayerSelectorInventory();
             ps.openSel(p);
-            }
+        }
         return false;
     }
 

@@ -24,6 +24,6 @@ public class CaveSounds implements Listener {
             public void run() {
                 p.playSound(p.getLocation(), Sound.ENTITY_GHAST_AMBIENT, 100, 1);
             }
-        },  10L, 40L);
+        }, 10L, 40L);
     }
 }

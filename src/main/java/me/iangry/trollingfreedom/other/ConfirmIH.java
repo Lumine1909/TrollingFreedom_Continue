@@ -29,15 +29,14 @@ public class ConfirmIH implements InventoryHolder, Listener {
 
 
     /**
-     *
-     * @param p Player to show the GUI
-     * @param question Question to show
-     * @param questio Material of a item that containing the question
+     * @param p          Player to show the GUI
+     * @param question   Question to show
+     * @param questio    Material of a item that containing the question
      * @param backButton Whether to insert a third "back" button
      * @param true_false Block of code to execute
      * @param backbutton Block of code to execute for the "back" button
-     * @param title Title of the GUI
-     * @param plugin Plugin instance
+     * @param title      Title of the GUI
+     * @param plugin     Plugin instance
      */
 
     public ConfirmIH(Player p, String question, Material questio, boolean backButton,
@@ -103,7 +102,7 @@ public class ConfirmIH implements InventoryHolder, Listener {
         e.setCancelled(true);
 
         if (e.getClickedInventory() == null || e.getCurrentItem() == null
-                || e.getCurrentItem().getType() == Material.AIR)
+            || e.getCurrentItem().getType() == Material.AIR)
             return;
 
         if (e.getClickedInventory().getHolder() != this)

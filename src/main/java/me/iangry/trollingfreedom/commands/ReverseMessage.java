@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 public class ReverseMessage implements Listener {
 
+    public static ArrayList<String> Reverse1 = new ArrayList();
+
     public static String reverseMessage(String i) {
         StringBuilder res = new StringBuilder();
         int length = i.length();
@@ -18,26 +20,23 @@ public class ReverseMessage implements Listener {
         return res.toString();
     }
 
-    public static ArrayList<String> Reverse1 = new ArrayList();
-
     public void Reverse(final Player p) {
         Reverse1.add(p.getName());
     }
 
     public void UnReverse(Player p) {
+        Reverse1.remove(p.getName());
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent event) {
+        Player p = event.getPlayer();
         if (Reverse1.contains(p.getName())) {
-            Reverse1.remove(p.getName());
+
+            String msg = reverseMessage(event.getMessage());
+            event.setMessage(msg);
         }
     }
-        @EventHandler
-        public void onChat(AsyncPlayerChatEvent event) {
-            Player p = event.getPlayer();
-            if (Reverse1.contains(p.getName())) {
-
-                String msg = reverseMessage(event.getMessage());
-                event.setMessage(msg);
-            }
-        }
 }
 
 

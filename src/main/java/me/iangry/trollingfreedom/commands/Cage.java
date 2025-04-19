@@ -20,23 +20,24 @@ public class Cage implements Listener {
 
     public void Cage(Player p) {
         String p2 = p.getName();
-        this.Cage1.add(p.getName());
-        if (this.Cage1.contains(p.getName()))
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.instance, new Runnable() {
-            public void run() {
-                buildIronCageAround(p, 3, 2, true);
-            }
-        }, 5L, 5L);
-}
+        Cage1.add(p.getName());
+        if (Cage1.contains(p.getName()))
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(Core.instance, new Runnable() {
+                public void run() {
+                    buildIronCageAround(p, 3, 2, true);
+                }
+            }, 5L, 5L);
+    }
 
     public void UnCage(Player p) {
         String p2 = p.getName();
-        this.Cage1.remove(p.getName());
+        Cage1.remove(p.getName());
     }
+
     @EventHandler
-    public void onPlayerMove (PlayerMoveEvent e){
+    public void onPlayerMove(PlayerMoveEvent e) {
         Player p = e.getPlayer();
-        if (this.Cage1.contains(p.getName())) {
+        if (Cage1.contains(p.getName())) {
             if (!e.getFrom().toVector().equals(e.getTo().toVector()))
                 e.setCancelled(true);
         }

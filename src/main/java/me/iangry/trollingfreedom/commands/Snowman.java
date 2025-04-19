@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Snowman implements Listener {
- 
-    private ArrayList<org.bukkit.entity.Snowman> sheepArrayList = new ArrayList<>();
+
+    private final ArrayList<org.bukkit.entity.Snowman> sheepArrayList = new ArrayList<>();
 
     public void Snowman(Player p) {
         String p2 = p.getName();
@@ -26,7 +26,7 @@ public class Snowman implements Listener {
         s.setNoDamageTicks(20);
         s.setCustomName(ChatColor.RED + "Explosive Snowman");
         s.setCustomNameVisible(false);
-       
+
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         scheduler.scheduleSyncDelayedTask((Core.instance), new Runnable() {
             public void run() {
@@ -146,7 +146,7 @@ public class Snowman implements Listener {
         Bukkit.getScheduler().scheduleSyncDelayedTask((Core.instance), () -> {
             for (int x = 0; x < 250; x++) {
                 s.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, s.getLocation(), 1, 10, 1, 50);
-                org.bukkit.entity.Snowman snowman= p.getPlayer().getWorld().spawn(s.getLocation(), org.bukkit.entity.Snowman.class);
+                org.bukkit.entity.Snowman snowman = p.getPlayer().getWorld().spawn(s.getLocation(), org.bukkit.entity.Snowman.class);
                 Random r = new Random();
                 MathUtils.applyVelocity(snowman, new Vector(r.nextDouble() - 0.5, r.nextDouble() / 2, r.nextDouble() - 0.5).multiply(2).add(new Vector(0, 0.8, 0)));
                 snowman.setInvulnerable(true);
