@@ -24,8 +24,6 @@ import java.util.Arrays;
 
 public class Core extends JavaPlugin implements Listener {
 
-
-    public static String version;
     public static Core instance;
     static Boolean usingUUID = false;
     public FileConfiguration config = getConfig();
@@ -79,10 +77,6 @@ public class Core extends JavaPlugin implements Listener {
         config.options().copyDefaults(true);
     }
 
-    public String getServerVersion() {
-        return Bukkit.getServer().getVersion().split("MC: ")[1].replaceAll("\\)", "").trim();
-    }
-
     public ItemStack getSkull() {
         ItemStack skull = SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGY0YzY3MzZjYjFjNjg4MGQ4MGEyMDYyZDdhYTRhYWIxZWEwYzU1YmYxNDJhZDMwZmQ1MmM1NzUxNWYwYzJkMSJ9fX0=");
         ItemMeta skullmeta = skull.getItemMeta();
@@ -114,7 +108,6 @@ public class Core extends JavaPlugin implements Listener {
 
         getCommand("control").setExecutor(new Control());
 
-        version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         Bukkit.getServer().getPluginManager().registerEvents(new EventListener(), this);
         getCommand("trollp").setExecutor(new TrollWithCMD());
@@ -190,10 +183,6 @@ public class Core extends JavaPlugin implements Listener {
         super.onEnable();
         reloadConfig();
         usingUUID = getConfig().getBoolean("values.using-uuid");
-        if (Integer.parseInt(getServerVersion().split("\\.")[1]) < 7) {
-            usingUUID = false;
-            this.getServer().getLogger().info("using UUID disable because server is version " + getServerVersion());
-        }
         try {
 
             Field f = null;
